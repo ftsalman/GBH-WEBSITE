@@ -5,7 +5,7 @@ export const Navbar = () => {
     <nav className="navbar">
       <a href="/" className="navbar-brand">
         <img
-          src="/logos/GBH.png"
+          src="/logos/GBH-SEC.png"
           alt="GBH Group"
           style={{ height: "32px", width: "auto" }}
         />

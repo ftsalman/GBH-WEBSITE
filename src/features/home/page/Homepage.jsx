@@ -66,8 +66,8 @@ export const Homepage = () => {
         setPaused={setPaused}
       />
       <main id="main">
-        <ClientsMarquee />
         <AboutIntro />
+        <ClientsMarquee />
         <Features />
         <Services setConsultation={setConsultation} />
         <Facilities setConsultation={setConsultation} />

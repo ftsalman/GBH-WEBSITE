@@ -1,6 +1,6 @@
 export function Brand() {
   return (
-    <a className="brand" href="#home" aria-label="GBH home">
+    <a className="brand" href="https://www.gbhgroup.ae" aria-label="GBH home">
       <img
         src="/logos/GBH.png"
         alt="GBH Business Ecosystem"

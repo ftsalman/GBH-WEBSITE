@@ -2,7 +2,7 @@ import { createBrowserRouter } from "react-router-dom";
 import { Layout } from "../layout/Layout";
 import { SplashPage } from "../pages/SplashPage";
 import { ErrorPage } from "../pages/ErrorPage";
-import { Hompage } from "../features/home/page/Hompage";
+import { Homepage } from "../features/home/page/Homepage";
 
 export const router = createBrowserRouter([
   {
@@ -12,7 +12,7 @@ export const router = createBrowserRouter([
     children: [
       {
         index: true,
-        element: <Hompage />,
+        element: <Homepage />,
       },
       {
         path: "splash",

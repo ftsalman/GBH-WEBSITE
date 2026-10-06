@@ -4,11 +4,15 @@ import { Icon } from "./Icon";
 export function Consultation({ service, onClose }) {
   const dialog = useRef(null);
   useEffect(() => {
-    dialog.current.showModal();
+    const currentDialog = dialog.current;
+    const trigger = document.activeElement;
+    currentDialog.showModal();
     const previous = document.body.style.overflow;
     document.body.style.overflow = "hidden";
     return () => {
+      currentDialog.close();
       document.body.style.overflow = previous;
+      if (trigger instanceof HTMLElement) trigger.focus();
     };
   }, []);
   return (
@@ -39,13 +43,13 @@ export function Consultation({ service, onClose }) {
         personalized guidance for your business.
       </p>
       <a className="button primary" href="tel:+971548881820">
-        <Icon name="phone" /> +971 54 888 1820 <Icon name="diagonal" />
+        <Icon name="phone" /> <span>+971 54 888 1820</span> <Icon name="diagonal" />
       </a>
       <a
         className="button secondary"
         href={`mailto:Info@gbhgroup.ae?subject=${encodeURIComponent(`Enquiry: ${service}`)}`}
       >
-        <Icon name="mail" /> Email our team <Icon name="diagonal" />
+        <Icon name="mail" /> <span>Email our team</span> <Icon name="diagonal" />
       </a>
       <p className="contact-note">
         White Swan Building, 1st Floor, Offices 105–106,

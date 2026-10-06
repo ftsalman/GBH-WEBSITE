@@ -1,0 +1,141 @@
+@reference "tailwindcss";
+@reference "../../style.css";
+
+@layer components {
+  /* Style Variants */
+
+  .tui-btn {
+    @apply outline-0 relative inline-flex items-center justify-center overflow-hidden rounded-none font-medium cursor-pointer disabled:cursor-not-allowed whitespace-nowrap border-0;
+  }
+
+  .tui-btn::before {
+    @apply [position:absolute];
+    @apply [inset:0];
+    @apply [content:''];
+    @apply [transform:scale(0)];
+    @apply [transform-origin:bottom_left];
+    @apply [transition:transform_480ms_cubic-bezier(0.22,_1,_0.36,_1)];
+    @apply [z-index:0];
+  }
+
+  .tui-btn:is(:hover, :focus-visible)::before {
+    @apply [transform:scale(1)];
+  }
+
+  .tui-btn-window {
+    @apply relative grid overflow-hidden z-10;
+  }
+
+  .tui-btn-content {
+    @apply flex items-center justify-center gap-2;
+    @apply [grid-area:1_/_1];
+    @apply [transition:transform_480ms_cubic-bezier(0.22,_1,_0.36,_1)];
+  }
+
+  .tui-btn-content.tui-btn-content--hover {
+    @apply [transform:translateY(100%)];
+  }
+
+  .tui-btn:is(:hover, :focus-visible) .tui-btn-content:not(.tui-btn-content--hover) {
+    @apply [transform:translateY(-100%)];
+  }
+
+  .tui-btn:is(:hover, :focus-visible) .tui-btn-content.tui-btn-content--hover {
+    @apply [transform:translateY(0)];
+  }
+
+  .tui-btn:focus-visible {
+    @apply ring-2 ring-white ring-offset-2 ring-offset-zinc-900;
+  }
+
+  .tui-btn-primary {
+    @apply text-[#121212] bg-white;
+  }
+  .tui-btn-primary::before {
+    @apply bg-[#121212];
+  }
+  .tui-btn-primary .tui-btn-content--hover {
+    @apply text-white;
+  }
+
+  .tui-btn-secondary {
+    @apply text-white bg-[#121212];
+  }
+  .tui-btn-secondary::before {
+    @apply bg-white;
+  }
+  .tui-btn-secondary .tui-btn-content--hover {
+    @apply text-[#121212];
+  }
+
+  .tui-btn-burgundy {
+    @apply text-[#E8E5DF] bg-[#560916];
+  }
+  .tui-btn-burgundy::before {
+    @apply bg-[#E8E5DF];
+  }
+  .tui-btn-burgundy .tui-btn-content--hover {
+    @apply text-[#560916];
+  }
+
+  .tui-btn-tertiary {
+    @apply bg-transparent text-zinc-800 border border-zinc-200;
+  }
+  .tui-btn-tertiary::before {
+    @apply bg-zinc-100;
+  }
+  .tui-btn-tertiary .tui-btn-content--hover {
+    @apply text-zinc-900;
+  }
+
+  .tui-btn-accent-gradient {
+    @apply text-white bg-zinc-800 disabled:bg-zinc-200 disabled:text-zinc-400;
+  }
+  .tui-btn-accent-gradient::before {
+    @apply bg-zinc-900;
+  }
+  .tui-btn-accent-gradient .tui-btn-content--hover {
+    @apply text-white;
+  }
+
+  .tui-btn-success {
+    @apply text-white bg-emerald-500 disabled:bg-zinc-200 disabled:text-zinc-400;
+  }
+  .tui-btn-success::before {
+    @apply bg-emerald-600;
+  }
+  .tui-btn-success .tui-btn-content--hover {
+    @apply text-white;
+  }
+
+  .tui-btn-danger {
+    @apply text-white bg-rose-500 disabled:bg-zinc-200 disabled:text-zinc-400;
+  }
+  .tui-btn-danger::before {
+    @apply bg-rose-600;
+  }
+  .tui-btn-danger .tui-btn-content--hover {
+    @apply text-white;
+  }
+
+  /* Size Variants */
+  .tui-btn-xs {
+    @apply h-[24px] px-4 py-2.5 text-xs;
+  }
+
+  .tui-btn-sm {
+    @apply h-[32px] px-4 py-[6px] text-xs;
+  }
+
+  .tui-btn-md {
+    @apply h-[40px] px-4 py-2.5 text-sm;
+  }
+
+  .tui-btn-lg {
+    @apply h-[56px] px-8 py-4 text-base rounded-full;
+  }
+
+  .tui-btn-xl {
+    @apply h-[56px] p-4 text-sm;
+  }
+}

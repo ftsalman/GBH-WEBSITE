@@ -1,165 +1,180 @@
+import { useState, useEffect } from "react";
 import { Icon } from "../Icon";
 import { Brand } from "../Brand";
-import { services, stats } from "../../constants/homeData";
+
+const VIDEO_ID = "AnE_i7bzTPE";
 
 export const Hero = ({
-  active,
-  paused,
-  reducedMotion,
   menuOpen,
   setMenuOpen,
-  changeService,
   setConsultation,
-  setPaused,
 }) => {
-  const service = services[active];
+  const [videoOpen, setVideoOpen] = useState(false);
+
+  // Close modal on Escape key
+  useEffect(() => {
+    const handleKey = (e) => { if (e.key === "Escape") setVideoOpen(false); };
+    if (videoOpen) window.addEventListener("keydown", handleKey);
+    return () => window.removeEventListener("keydown", handleKey);
+  }, [videoOpen]);
 
   return (
-    <div className="hero-shell" id="home">
-      <header className="header">
+    <div className="relative min-h-screen bg-[#fcfaf5] overflow-hidden font-sans" id="home">
+      {/* Decorative background elements removed from here to be placed relative to the video */}
+
+      {/* Header */}
+      <header className="relative z-20 flex items-center justify-between px-6 py-6 md:px-12 max-w-[1400px] mx-auto">
         <Brand />
         <nav
           id="main-navigation"
-          className={menuOpen ? "nav open" : "nav"}
+          className={`${menuOpen ? "flex" : "hidden"} md:flex absolute md:static top-full left-0 w-full md:w-auto bg-[#fcfaf5] md:bg-transparent flex-col md:flex-row items-center gap-6 md:gap-10 py-6 md:py-0 border-b md:border-none border-gray-200 z-50 text-[15px] font-medium text-gray-800`}
           aria-label="Main navigation"
         >
           {[
-            ["About us", "#about"],
-            ["Why GBH", "#features"],
-            ["What we offer", "#offers"],
-            ["Office spaces", "#spaces"],
+            ["Facilities", "#facilities"],
+            ["Features", "#features"],
+            ["Locations", "#locations"],
+            ["Testimonials", "#testimonials"],
           ].map(([name, href]) => (
-            <a key={href} href={href} onClick={() => setMenuOpen(false)}>
+            <a key={href} href={href} className="hover:text-black transition-colors" onClick={() => setMenuOpen(false)}>
               {name}
             </a>
           ))}
-          <a
-            className="mobile-contact"
-            href="#contact"
-            onClick={() => setMenuOpen(false)}
-          >
-            Contact us
-          </a>
         </nav>
-        <a className="header-contact" href="#contact">
-          Let’s talk <Icon name="diagonal" size={16} />
-        </a>
-        <button
-          className="menu-toggle icon-button"
-          aria-controls="main-navigation"
-          aria-expanded={menuOpen}
-          aria-label={menuOpen ? "Close menu" : "Open menu"}
-          onClick={() => setMenuOpen(!menuOpen)}
-        >
-          <Icon name={menuOpen ? "close" : "menu"} />
-        </button>
+        <div className="flex items-center gap-4">
+          <button
+            onClick={() => setConsultation("Book Visit")}
+            className="hidden md:inline-flex px-6 py-2.5 bg-black text-white font-semibold rounded-full hover:bg-gray-800 transition-colors text-sm"
+          >
+            Book Visit
+          </button>
+          <button
+            className="md:hidden p-2 text-gray-800"
+            aria-label={menuOpen ? "Close menu" : "Open menu"}
+            onClick={() => setMenuOpen(!menuOpen)}
+          >
+            <Icon name={menuOpen ? "close" : "menu"} size={24} />
+          </button>
+        </div>
       </header>
 
-      <section
-        className={`hero ${paused || reducedMotion ? "motion-paused" : ""}`}
-        aria-label="GBH business services"
-      >
-        <div className="hero-scenes" data-parallax="0.18" aria-hidden="true">
-          {services.map((item, index) => (
-            <div
-              key={item.name}
-              className={`hero-scene scene-${index} ${index === active ? "active" : ""}`}
-            >
-              <img
-                src={item.image}
-                alt=""
-                fetchPriority={index === 0 ? "high" : "auto"}
-              />
-            </div>
-          ))}
-        </div>
-        <div className="hero-shade" />
+      {/* Hero Content */}
+      <section className="relative z-10 flex flex-col items-center justify-center pt-8 md:pt-16 pb-20 px-6 max-w-[1000px] mx-auto text-center">
+        <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold text-[#1f3024] tracking-tight leading-[1.1] mb-6">
+          Unlock <span className="relative inline-block">
+            effortless
+            {/* Hand-drawn ellipse approximation */}
+            <svg className="absolute -inset-2 w-[calc(100%+16px)] h-[calc(100%+16px)] text-[#d2e0ff] pointer-events-none" viewBox="0 0 200 60" preserveAspectRatio="none">
+              <path d="M100,5 C150,2 195,15 190,35 C185,55 120,58 60,52 C10,46 5,25 30,12 C50,2 90,5 100,5 Z" fill="none" stroke="currentColor" strokeWidth="4" strokeLinecap="round" />
+            </svg>
+          </span> Business Setup
+          <br className="hidden md:block" /> with your own world-
+          <br className="hidden md:block" /> class expert team.
+        </h1>
+        
+        <p className="text-base md:text-lg text-gray-600 max-w-[600px] mb-10 leading-relaxed font-medium">
+          Access the strategies and local talent powering the biggest companies in the UAE and achieve your business goals, faster.
+        </p>
 
-        <div className="hero-content">
-          <div className="hero-kicker">
-            <span /> BUSINESS SETUP IN UAE
-          </div>
-          <div className="hero-copy" key={active}>
-            <h1>
-              <span>{service.title}</span>
-              <span>{service.line}</span>
-            </h1>
-            <p>{service.detail}</p>
-          </div>
-          <div className="hero-actions mt-6 flex flex-wrap items-center justify-center gap-3">
-            <button
-              type="button"
-              className="button primary"
-              onClick={() => setConsultation("Business consultation")}
-            >
-              Book consultation <Icon name="arrow" size={17} />
-            </button>
-            <a
-              className="button border border-white/70 bg-white/10 text-white backdrop-blur-sm hover:bg-white/20"
-              href="#offers"
-            >
-              Explore services <Icon name="diagonal" size={17} />
-            </a>
-          </div>
-          <div className="hero-signature" aria-hidden="true">
-            <img src="/images/hero-office.jpg" alt="" />
-            <div>
-              <span>GBH</span>
-              <p>
-                Local insight.
-                <br />
-                Global vision.
-              </p>
-              <Icon name="diagonal" size={22} />
-            </div>
-          </div>
-        </div>
-
-        <div className="hero-bottom">
-          <span>
-            <Icon name="pin" size={14} /> DUBAI, UNITED ARAB EMIRATES
-          </span>
-          <div className="scene-controls">
-            <span>
-              0{active + 1}
-              <span className="scene-total"> / 04</span>
-            </span>
-            <div className="scene-dots">
-              {services.map((item, index) => (
-                <button
-                  key={item.name}
-                  type="button"
-                  aria-label={`Show ${item.name}`}
-                  aria-pressed={active === index}
-                  onClick={() => changeService(index)}
-                  className={active === index ? "active" : ""}
-                />
-              ))}
-            </div>
-            <button
-              type="button"
-              className="motion-toggle"
-              aria-label={
-                paused ? "Play hero slideshow" : "Pause hero slideshow"
-              }
-              onClick={() => setPaused(!paused)}
-            >
-              <Icon name={paused ? "play" : "pause"} size={14} />
-            </button>
-          </div>
-          <a className="discover" href="#features">
-            SCROLL TO EXPLORE <span>↓</span>
+        <div className="flex flex-col sm:flex-row items-center gap-6 mb-12">
+          <button
+            onClick={() => setConsultation("Book Visit")}
+            style={{ background: '#000', color: '#fff', padding: '14px 32px', borderRadius: '999px', fontWeight: 600, fontSize: '14px', border: 'none', cursor: 'pointer', transition: 'background 0.2s' }}
+            onMouseOver={e => e.currentTarget.style.background='#222'}
+            onMouseOut={e => e.currentTarget.style.background='#000'}
+          >
+            Book Visit
+          </button>
+          <a
+            href="#contact"
+            style={{ padding: '14px 32px', borderRadius: '999px', fontWeight: 600, fontSize: '14px', border: '2px solid #000', color: '#000', textDecoration: 'none', transition: 'background 0.2s', display: 'inline-block' }}
+            onMouseOver={e => e.currentTarget.style.background='#f3f4f6'}
+            onMouseOut={e => e.currentTarget.style.background='transparent'}
+          >
+            Contact now
           </a>
         </div>
-        <div className="hero-stats">
-          {stats.map(({ value, label }) => (
-            <div key={label}>
-              <strong>{value}</strong>
-              <span>{label}</span>
+
+        {/* Video Section */}
+        <div id="video" className="relative w-full max-w-[900px] mx-auto mt-8">
+          {/* Top connecting line */}
+          <svg className="hidden md:block absolute -top-12 left-1/2 -translate-x-1/2 w-4 h-16 text-black -z-10" viewBox="0 0 20 60" preserveAspectRatio="none">
+            <path d="M10,2 Q18,30 10,58" fill="none" stroke="currentColor" strokeWidth="4" strokeLinecap="round" />
+          </svg>
+
+          {/* Bottom left curve */}
+          <svg className="hidden md:block absolute -bottom-32 -left-32 w-[350px] h-[350px] text-black -z-10" viewBox="0 0 100 100" overflow="visible">
+            <circle cx="50" cy="50" r="45" fill="none" stroke="currentColor" strokeWidth="2.5" />
+          </svg>
+
+          {/* Bottom right curve */}
+          <svg className="hidden md:block absolute -bottom-48 -right-48 w-[500px] h-[500px] text-black -z-10" viewBox="0 0 100 100" overflow="visible">
+            <circle cx="50" cy="50" r="45" fill="none" stroke="currentColor" strokeWidth="1.5" />
+          </svg>
+
+          {/* Hand-drawn arrow annotation */}
+          <div className="absolute -top-16 -right-8 md:-right-24 hidden md:flex flex-col items-center transform rotate-12">
+            <span className="font-['Caveat',cursive,sans-serif] text-xl font-bold text-[#1f3024] mb-2 -rotate-12">MESSAGE FROM CEO</span>
+            <svg width="60" height="60" viewBox="0 0 100 100" className="text-[#1f3024] transform scale-x-[-1]">
+              <path d="M20,10 C40,40 80,60 90,90 M80,85 L90,90 L95,75" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" />
+            </svg>
+          </div>
+
+          <div className="relative aspect-video bg-gray-900 rounded-3xl overflow-hidden shadow-2xl group cursor-pointer border-[8px] border-white/50" onClick={() => setVideoOpen(true)} role="button" aria-label="Play CEO video">
+            {/* Placeholder for video thumbnail */}
+            <img 
+              src="https://images.unsplash.com/photo-1573164713988-8665fc963095?q=80&w=2069&auto=format&fit=crop" 
+              alt="CEO Message Video" 
+              className="w-full h-full object-cover opacity-90 group-hover:opacity-100 transition-opacity"
+            />
+            
+            {/* Play Button */}
+            <div className="absolute inset-0 flex items-center justify-center">
+              <div className="w-20 h-20 bg-white/20 backdrop-blur-sm rounded-2xl flex items-center justify-center text-white group-hover:bg-white/30 transition-colors shadow-lg">
+                <svg className="w-10 h-10 ml-1" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M8 5v14l11-7z" />
+                </svg>
+              </div>
             </div>
-          ))}
+
+            {/* Video Controls Mockup */}
+            <div className="absolute bottom-4 right-4 flex gap-2">
+              <div className="px-2 py-1 bg-black/50 backdrop-blur-md rounded text-white text-[10px] flex items-center gap-2">
+                <Icon name="play" size={12} />
+                <span>0:00 / 2:34</span>
+              </div>
+            </div>
+          </div>
         </div>
       </section>
+
+      {/* YouTube Video Modal */}
+      {videoOpen && (
+        <div
+          className="fixed inset-0 z-[100] flex items-center justify-center bg-black/80 backdrop-blur-sm"
+          onClick={() => setVideoOpen(false)}
+        >
+          <div
+            className="relative w-full max-w-4xl mx-4 aspect-video rounded-2xl overflow-hidden shadow-2xl"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <iframe
+              src={`https://www.youtube.com/embed/${VIDEO_ID}?autoplay=1&rel=0`}
+              title="CEO Message Video"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowFullScreen
+              className="w-full h-full"
+            />
+          </div>
+          <button
+            onClick={() => setVideoOpen(false)}
+            className="absolute top-4 right-4 w-10 h-10 bg-white/20 hover:bg-white/40 backdrop-blur-sm rounded-full flex items-center justify-center text-white transition-colors"
+            aria-label="Close video"
+          >
+            <Icon name="close" size={20} />
+          </button>
+        </div>
+      )}
     </div>
   );
 };

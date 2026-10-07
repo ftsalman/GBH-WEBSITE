@@ -1,15 +1,10 @@
 import { useEffect, useRef, useState } from "react";
 import { Consultation } from "../components/Consultation";
 import { Hero } from "../components/Hero/Hero";
-import { AboutIntro } from "../components/AboutIntro/AboutIntro";
 import { Features } from "../components/Features/Features";
-import { IntroTestimonial } from "../components/IntroTestimonial/IntroTestimonial";
-import { ClientsMarquee } from "../components/ClientsMarquee/ClientsMarquee";
-import { Services } from "../components/Services/Services";
 import { Facilities } from "../components/Facilities/Facilities";
 import { ScrollEffects } from "../components/ScrollEffects/ScrollEffects";
 import { Locations } from "../components/Locations/Locations";
-import { BookingProcess } from "../components/BookingProcess/BookingProcess";
 import { Testimonials } from "../components/Testimonials/Testimonials";
 import { Contact } from "../components/Contact/Contact";
 import { FinalCTA } from "../components/FinalCTA/FinalCTA";
@@ -56,30 +51,18 @@ export const Homepage = () => {
         Skip to content
       </a>
       <Hero
-        active={active}
-        paused={paused}
-        reducedMotion={reducedMotion}
         menuOpen={menuOpen}
         setMenuOpen={setMenuOpen}
-        changeService={changeService}
         setConsultation={setConsultation}
-        setPaused={setPaused}
       />
-      <main id="main">
-        <AboutIntro />
-        <ClientsMarquee />
-        <Features />
-        <Services setConsultation={setConsultation} />
+      <main id="main" className="flex flex-col gap-16 md:gap-24 pt-24 pb-16">
         <Facilities setConsultation={setConsultation} />
-        <IntroTestimonial />
+        <Features />
         <Locations />
         <Testimonials />
-        <BookingProcess />
         <Contact />
-        <FinalCTA
-          onBook={() => setConsultation("Free business consultation")}
-        />
       </main>
+      <FinalCTA onBook={() => setConsultation("Free business consultation")} />
       <Footer />
       {consultation && (
         <Consultation

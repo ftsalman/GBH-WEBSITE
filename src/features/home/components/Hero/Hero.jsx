@@ -43,10 +43,13 @@ export const Hero = ({
         </nav>
         <div className="flex items-center gap-4">
           <button
-            onClick={() => setConsultation("Book Visit")}
-            className="hidden md:inline-flex px-6 py-2.5 bg-black text-white font-semibold rounded-full hover:bg-gray-800 transition-colors text-sm"
+            onClick={() => setConsultation("Let's Visit")}
+            className="hidden md:inline-flex rounded-full text-sm font-semibold transition-colors"
+            style={{ background: '#000', color: '#fff', padding: '10px 24px' }}
+            onMouseOver={e => e.currentTarget.style.background='#333'}
+            onMouseOut={e => e.currentTarget.style.background='#000'}
           >
-            Book Visit
+            Let's Visit
           </button>
           <button
             className="md:hidden p-2 text-gray-800"
@@ -78,12 +81,12 @@ export const Hero = ({
 
         <div className="flex flex-col sm:flex-row items-center gap-6 mb-12">
           <button
-            onClick={() => setConsultation("Book Visit")}
+            onClick={() => setConsultation("Let's Visit")}
             style={{ background: '#000', color: '#fff', padding: '14px 32px', borderRadius: '999px', fontWeight: 600, fontSize: '14px', border: 'none', cursor: 'pointer', transition: 'background 0.2s' }}
             onMouseOver={e => e.currentTarget.style.background='#222'}
             onMouseOut={e => e.currentTarget.style.background='#000'}
           >
-            Book Visit
+            Let's Visit
           </button>
           <a
             href="#contact"

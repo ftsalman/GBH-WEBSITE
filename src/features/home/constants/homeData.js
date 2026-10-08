@@ -179,21 +179,25 @@ export const locations = [
     name: "Business Bay",
     centre: "Clover Bay Tower",
     description: "Furnished offices with Wi-Fi and meeting rooms.",
+    image: "/images/locations/business-bay.jpg",
   },
   {
     name: "Sheikh Zayed Road",
     centre: "White Swan",
     description: "Reception, pantry and office spaces at White Swan.",
+    image: "/images/locations/sheikh-zayed-road.jpg",
   },
   {
     name: "Al Muteena",
     centre: "Al Muteena",
     description: "Workspace options with shared amenities.",
+    image: "/images/locations/al-muteena.jpg",
   },
   {
     name: "Ras Al Khor",
     centre: "Saeed Suhail",
     description: "Furnished office space with Ejari and meeting rooms.",
+    image: "/images/locations/ras-al-khor.jpg",
   },
 ];
 

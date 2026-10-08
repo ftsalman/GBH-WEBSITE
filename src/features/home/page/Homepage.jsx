@@ -8,6 +8,7 @@ import { Locations } from "../components/Locations/Locations";
 import { Testimonials } from "../components/Testimonials/Testimonials";
 import { Contact } from "../components/Contact/Contact";
 import { FinalCTA } from "../components/FinalCTA/FinalCTA";
+import { Carousel } from "../components/Carousel/Carousel";
 import { Footer } from "../../../components/footer/Footer";
 import { services } from "../constants/homeData";
 import "./home.css";
@@ -55,7 +56,9 @@ export const Homepage = () => {
         setMenuOpen={setMenuOpen}
         setConsultation={setConsultation}
       />
+
       <main id="main" className="flex flex-col gap-16 md:gap-24 pt-24 pb-16">
+        <Carousel />
         <Facilities setConsultation={setConsultation} />
         <Features />
         <Locations />

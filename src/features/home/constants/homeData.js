@@ -171,7 +171,8 @@ export const facilityCards = [
   {
     title: "DEWA",
     icon: "shield",
-    detail: "Essential electricity and water services included for your workspace.",
+    detail:
+      "Essential electricity and water services included for your workspace.",
   },
   {
     title: "Prayer Room",
@@ -206,8 +207,9 @@ export const locations = [
     phone: "[Contact Number]",
     email: "[Email Address]",
     description: "Workspace options with shared amenities.",
-    image: "/images/locations/al-muteena.jpg",
-    mapLink: "https://www.google.com/maps/place/GBH+Business+Center+LLC+(Corporate+Office)/@25.2777768,55.3229686,791m/data=!3m2!1e3!4b1!4m6!3m5!1s0x3e5f5d6b4ecee63f:0xe1e131f1fcd2017a!8m2!3d25.2777768!4d55.3229686!16s%2Fg%2F11xyn_yjz5?entry=ttu&g_ep=EgoyMDI2MTAwNi4wIKXMDSoASAFQAw%3D%3D",
+    image: "/images/locations/office.png",
+    mapLink:
+      "https://www.google.com/maps/place/GBH+Business+Center+LLC+(Corporate+Office)/@25.2777768,55.3229686,791m/data=!3m2!1e3!4b1!4m6!3m5!1s0x3e5f5d6b4ecee63f:0xe1e131f1fcd2017a!8m2!3d25.2777768!4d55.3229686!16s%2Fg%2F11xyn_yjz5?entry=ttu&g_ep=EgoyMDI2MTAwNi4wIKXMDSoASAFQAw%3D%3D",
   },
   {
     name: "Ras Al Khor",

@@ -115,7 +115,7 @@ export const Hero = ({ menuOpen, setMenuOpen, setConsultation }) => {
             onMouseOver={(e) => (e.currentTarget.style.background = "#222")}
             onMouseOut={(e) => (e.currentTarget.style.background = "#000")}
           >
-           Schedule a Viewing 
+            Schedule a Viewing
           </button>
           <a
             href="#contact"
@@ -187,8 +187,6 @@ export const Hero = ({ menuOpen, setMenuOpen, setConsultation }) => {
               strokeWidth="1.5"
             />
           </svg>
-
-
 
           <div
             className="relative aspect-video bg-gray-900 rounded-3xl overflow-hidden shadow-2xl group cursor-pointer border-[8px] border-white/50"

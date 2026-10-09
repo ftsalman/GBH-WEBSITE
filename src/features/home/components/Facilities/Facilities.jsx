@@ -10,10 +10,10 @@ export const Facilities = ({ setConsultation }) => (
     <div className="grid items-end gap-8 md:grid-cols-[1fr_auto]">
       <div>
         <span className="eyebrow">WORKSPACE FACILITIES</span>
-        <h2>Office space with room to grow.</h2>
+        <h2>Everything You Need for Your Workday</h2>
         <p className="mt-3 max-w-xl text-sm leading-6 text-[#687564]">
-          Explore GBH business centres, furnished offices and the everyday
-          essentials that support your team.
+          Enjoy essential workplace facilities designed to make your day more
+          comfortable, convenient and productive.
         </p>
       </div>
       <img
@@ -32,12 +32,12 @@ export const Facilities = ({ setConsultation }) => (
       <button
         type="button"
         className="button primary"
-        onClick={() => setConsultation("Office space")}
+        onClick={() => setConsultation("Schedule a Viewing")}
       >
-        Book now <Icon name="arrow" size={17} />
+        Schedule a Viewing <Icon name="arrow" size={17} />
       </button>
       <a href={`${WEBSITE}/contact`} className="button secondary">
-        Contact now <Icon name="diagonal" size={17} />
+        Contact Now <Icon name="diagonal" size={17} />
       </a>
     </div>
   </section>

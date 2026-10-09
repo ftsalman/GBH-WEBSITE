@@ -59,6 +59,16 @@ export function Icon({ name, size = 20, ...props }) {
     close: <path d="m6 6 12 12M6 18 18 6" />,
     pause: <path d="M9 5v14M15 5v14" />,
     play: <path d="m8 5 11 7-11 7V5Z" />,
+    pantry: (
+      <>
+        <path d="M6 2v4a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V2" />
+        <path d="M6 8h12l-1.5 10.5a2 2 0 0 1-2 1.5h-5a2 2 0 0 1-2-1.5L6 8Z" />
+        <path d="M10 12h4" />
+      </>
+    ),
+    prayer: (
+      <path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z" />
+    ),
   };
   return (
     <svg

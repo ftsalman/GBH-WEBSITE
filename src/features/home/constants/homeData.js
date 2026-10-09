@@ -78,27 +78,28 @@ export const clientNames = [
 
 export const features = [
   {
-    title: "Complete Business Setup",
+    title: "Business Consulting",
     icon: "briefcase",
     description:
-      "Guidance for mainland, free zone and offshore company formation.",
+      "Practical business consulting and guidance to help you make the right decisions and grow your business.",
   },
   {
-    title: "Government Assistance",
+    title: "Government & PRO Services",
     icon: "shield",
     description:
-      "Support with documentation, approvals, translation and PRO services.",
+      "Support with government documentation, approvals, applications, translations and PRO requirements.",
   },
   {
-    title: "Expert Consultation",
-    icon: "people",
-    description: "Work with GBH consultants who understand the UAE market.",
-  },
-  {
-    title: "End-to-End Support",
-    icon: "globe",
+    title: "Accounting & Payroll",
+    icon: "chart",
     description:
-      "Business setup, legal, accounting, compliance and operational help under one roof.",
+      "Professional accounting, bookkeeping, VAT and payroll services to help keep your business financially organized.",
+  },
+  {
+    title: "IT & Business Solutions",
+    icon: "code",
+    description:
+      "Technology, IT services and digital solutions that help businesses operate efficiently and stay connected.",
   },
 ];
 
@@ -145,32 +146,37 @@ export const facilityCards = [
   {
     title: "Premium Office Spaces",
     icon: "building",
-    detail: "Furnished offices that suit your business needs.",
+    detail: "Furnished office spaces designed for your business needs.",
   },
   {
     title: "Meeting Rooms",
     icon: "people",
-    detail: "Space for the conversations that move business forward.",
+    detail: "Professional spaces for meetings and business discussions.",
   },
   {
     title: "Reception",
     icon: "people",
-    detail: "A professional welcome for your visitors.",
+    detail: "A professional reception area for welcoming your visitors.",
   },
   {
     title: "Pantry",
-    icon: "check",
-    detail: "Everyday convenience at your workplace.",
+    icon: "pantry",
+    detail: "Convenient pantry facilities for everyday use.",
   },
   {
     title: "High-Speed Wi-Fi",
     icon: "globe",
-    detail: "Stay connected throughout the working day.",
+    detail: "Stay connected throughout your working day.",
   },
   {
-    title: "Ejari",
+    title: "DEWA",
     icon: "shield",
-    detail: "Workspace options with Ejari support.",
+    detail: "Essential electricity and water services included for your workspace.",
+  },
+  {
+    title: "Prayer Room",
+    icon: "prayer",
+    detail: "A dedicated prayer space available for your convenience.",
   },
 ];
 
@@ -178,24 +184,37 @@ export const locations = [
   {
     name: "Business Bay",
     centre: "Clover Bay Tower",
+    address: "Clover Bay Tower, Business Bay, Dubai",
+    phone: "[Contact Number]",
+    email: "[Email Address]",
     description: "Furnished offices with Wi-Fi and meeting rooms.",
     image: "/images/locations/business-bay.jpg",
   },
   {
     name: "Sheikh Zayed Road",
     centre: "White Swan",
+    address: "White Swan, Sheikh Zayed Road, Dubai",
+    phone: "[Contact Number]",
+    email: "[Email Address]",
     description: "Reception, pantry and office spaces at White Swan.",
     image: "/images/locations/sheikh-zayed-road.jpg",
   },
   {
     name: "Al Muteena",
     centre: "Al Muteena",
+    address: "Al Muteena, Dubai",
+    phone: "[Contact Number]",
+    email: "[Email Address]",
     description: "Workspace options with shared amenities.",
     image: "/images/locations/al-muteena.jpg",
+    mapLink: "https://www.google.com/maps/place/GBH+Business+Center+LLC+(Corporate+Office)/@25.2777768,55.3229686,791m/data=!3m2!1e3!4b1!4m6!3m5!1s0x3e5f5d6b4ecee63f:0xe1e131f1fcd2017a!8m2!3d25.2777768!4d55.3229686!16s%2Fg%2F11xyn_yjz5?entry=ttu&g_ep=EgoyMDI2MTAwNi4wIKXMDSoASAFQAw%3D%3D",
   },
   {
     name: "Ras Al Khor",
     centre: "Saeed Suhail",
+    address: "Saeed Suhail Building, Ras Al Khor, Dubai",
+    phone: "[Contact Number]",
+    email: "[Email Address]",
     description: "Furnished office space with Ejari and meeting rooms.",
     image: "/images/locations/ras-al-khor.jpg",
   },

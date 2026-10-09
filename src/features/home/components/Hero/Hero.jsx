@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { Icon } from "../Icon";
 import { Brand } from "../Brand";
 
-const VIDEO_ID = "AnE_i7bzTPE";
+const VIDEO_ID = "SRbVZWBKWQY";
 
 export const Hero = ({ menuOpen, setMenuOpen, setConsultation }) => {
   const [videoOpen, setVideoOpen] = useState(false);
@@ -194,10 +194,10 @@ export const Hero = ({ menuOpen, setMenuOpen, setConsultation }) => {
             role="button"
             aria-label="Play CEO video"
           >
-            {/* Placeholder for video thumbnail */}
+            {/* Video thumbnail */}
             <img
-              src="https://images.unsplash.com/photo-1573164713988-8665fc963095?q=80&w=2069&auto=format&fit=crop"
-              alt="CEO Message Video"
+              src="/images/locations/office.png"
+              alt="GBH Video"
               className="w-full h-full object-cover opacity-90 group-hover:opacity-100 transition-opacity"
             />
 

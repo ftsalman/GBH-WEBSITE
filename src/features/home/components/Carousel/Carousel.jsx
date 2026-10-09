@@ -8,71 +8,434 @@ const mark = (text) => (
 );
 
 const slides = [
+  // {
+  //   id: "img-0",
+  //   href: "#locations",
+  //   overlay: mark("CLOVER BAY TOWER"),
+  //   image: "/offices/CLOVER BAY TOWER/1.jpg",
+  //   imageAlt: "CLOVER BAY TOWER office"
+  // },
+  // {
+  //   id: "img-1",
+  //   href: "#locations",
+  //   overlay: mark("CLOVER BAY TOWER"),
+  //   image: "/offices/CLOVER BAY TOWER/10.jpg",
+  //   imageAlt: "CLOVER BAY TOWER office"
+  // },
+  // {
+  //   id: "img-2",
+  //   href: "#locations",
+  //   overlay: mark("CLOVER BAY TOWER"),
+  //   image: "/offices/CLOVER BAY TOWER/11.jpg",
+  //   imageAlt: "CLOVER BAY TOWER office"
+  // },
+  // {
+  //   id: "img-3",
+  //   href: "#locations",
+  //   overlay: mark("CLOVER BAY TOWER"),
+  //   image: "/offices/CLOVER BAY TOWER/12.jpg",
+  //   imageAlt: "CLOVER BAY TOWER office"
+  // },
+  // {
+  //   id: "img-4",
+  //   href: "#locations",
+  //   overlay: mark("CLOVER BAY TOWER"),
+  //   image: "/offices/CLOVER BAY TOWER/13.jpg",
+  //   imageAlt: "CLOVER BAY TOWER office"
+  // },
+  // {
+  //   id: "img-5",
+  //   href: "#locations",
+  //   overlay: mark("CLOVER BAY TOWER"),
+  //   image: "/offices/CLOVER BAY TOWER/14.jpg",
+  //   imageAlt: "CLOVER BAY TOWER office"
+  // },
+  // {
+  //   id: "img-6",
+  //   href: "#locations",
+  //   overlay: mark("CLOVER BAY TOWER"),
+  //   image: "/offices/CLOVER BAY TOWER/15.jpg",
+  //   imageAlt: "CLOVER BAY TOWER office"
+  // },
+  // {
+  //   id: "img-7",
+  //   href: "#locations",
+  //   overlay: mark("CLOVER BAY TOWER"),
+  //   image: "/offices/CLOVER BAY TOWER/16.jpg",
+  //   imageAlt: "CLOVER BAY TOWER office"
+  // },
+  // {
+  //   id: "img-8",
+  //   href: "#locations",
+  //   overlay: mark("CLOVER BAY TOWER"),
+  //   image: "/offices/CLOVER BAY TOWER/17.jpg",
+  //   imageAlt: "CLOVER BAY TOWER office"
+  // },
+  // {
+  //   id: "img-9",
+  //   href: "#locations",
+  //   overlay: mark("CLOVER BAY TOWER"),
+  //   image: "/offices/CLOVER BAY TOWER/18.jpg",
+  //   imageAlt: "CLOVER BAY TOWER office"
+  // },
+  // {
+  //   id: "img-10",
+  //   href: "#locations",
+  //   overlay: mark("CLOVER BAY TOWER"),
+  //   image: "/offices/CLOVER BAY TOWER/19.jpg",
+  //   imageAlt: "CLOVER BAY TOWER office"
+  // },
+  // {
+  //   id: "img-11",
+  //   href: "#locations",
+  //   overlay: mark("CLOVER BAY TOWER"),
+  //   image: "/offices/CLOVER BAY TOWER/2.jpg",
+  //   imageAlt: "CLOVER BAY TOWER office"
+  // },
+  // {
+  //   id: "img-12",
+  //   href: "#locations",
+  //   overlay: mark("CLOVER BAY TOWER"),
+  //   image: "/offices/CLOVER BAY TOWER/20.jpg",
+  //   imageAlt: "CLOVER BAY TOWER office"
+  // },
+  // {
+  //   id: "img-13",
+  //   href: "#locations",
+  //   overlay: mark("CLOVER BAY TOWER"),
+  //   image: "/offices/CLOVER BAY TOWER/21.jpg",
+  //   imageAlt: "CLOVER BAY TOWER office"
+  // },
+  // {
+  //   id: "img-14",
+  //   href: "#locations",
+  //   overlay: mark("CLOVER BAY TOWER"),
+  //   image: "/offices/CLOVER BAY TOWER/22.jpg",
+  //   imageAlt: "CLOVER BAY TOWER office"
+  // },
+  // {
+  //   id: "img-15",
+  //   href: "#locations",
+  //   overlay: mark("CLOVER BAY TOWER"),
+  //   image: "/offices/CLOVER BAY TOWER/3.jpg",
+  //   imageAlt: "CLOVER BAY TOWER office"
+  // },
+  // {
+  //   id: "img-16",
+  //   href: "#locations",
+  //   overlay: mark("CLOVER BAY TOWER"),
+  //   image: "/offices/CLOVER BAY TOWER/4.jpg",
+  //   imageAlt: "CLOVER BAY TOWER office"
+  // },
+  // {
+  //   id: "img-17",
+  //   href: "#locations",
+  //   overlay: mark("CLOVER BAY TOWER"),
+  //   image: "/offices/CLOVER BAY TOWER/5.jpg",
+  //   imageAlt: "CLOVER BAY TOWER office"
+  // },
+  // {
+  //   id: "img-18",
+  //   href: "#locations",
+  //   overlay: mark("CLOVER BAY TOWER"),
+  //   image: "/offices/CLOVER BAY TOWER/6.jpg",
+  //   imageAlt: "CLOVER BAY TOWER office"
+  // },
+  // {
+  //   id: "img-19",
+  //   href: "#locations",
+  //   overlay: mark("CLOVER BAY TOWER"),
+  //   image: "/offices/CLOVER BAY TOWER/7.jpg",
+  //   imageAlt: "CLOVER BAY TOWER office"
+  // },
+  // {
+  //   id: "img-20",
+  //   href: "#locations",
+  //   overlay: mark("CLOVER BAY TOWER"),
+  //   image: "/offices/CLOVER BAY TOWER/8.jpg",
+  //   imageAlt: "CLOVER BAY TOWER office"
+  // },
+  // {
+  //   id: "img-21",
+  //   href: "#locations",
+  //   overlay: mark("CLOVER BAY TOWER"),
+  //   image: "/offices/CLOVER BAY TOWER/9.jpg",
+  //   imageAlt: "CLOVER BAY TOWER office"
+  // },
+
   {
-    id: "business-setup",
-    // title: "Your business, established in the UAE.",
-    // description:
-    //   "Mainland, free zone or offshore — GBH guides you through company formation, licensing and every step between.",
-    // action: "Start your setup",
-    href: "#contact",
-    overlay: mark("Business Setup"),
-    image: "/images/dubai.png",
-    imageAlt: "Dubai skyline at dusk",
-  },
-  {
-    id: "office-spaces",
-    // title: "Office space built for serious work.",
-    // description:
-    //   "Furnished offices, meeting rooms, high-speed Wi-Fi and reception — across nine business centres in Dubai.",
-    // action: "Explore offices",
+    id: "img-35",
     href: "#locations",
-    overlay: mark("Business Centres"),
-    image: "/images/hero-office.jpg",
-    imageAlt: "Modern office interior",
+    overlay: mark("MUTEENA"),
+    image: "/offices/MUTEENA/1.jpg",
+    imageAlt: "MUTEENA office",
   },
   {
-    id: "trade-license",
-    // title: "Trade licensing, done right the first time.",
-    // description:
-    //   "GBH handles the paperwork, approvals and follow-ups so your licence arrives without the headaches.",
-    // action: "Get your licence",
-    // href: "#contact",
-    overlay: mark("Trade License"),
-    image: "/images/workspace.jpg",
-    imageAlt: "Professional workspace",
+    id: "img-36",
+    href: "#locations",
+    overlay: mark("MUTEENA"),
+    image: "/offices/MUTEENA/2.jpg",
+    imageAlt: "MUTEENA office",
   },
   {
-    id: "visa-services",
-    // title: "Visa support for you and your team.",
-    // description:
-    //   "Employment, investor and residency visas — processed efficiently with full government liaison from GBH.",
-    // action: "Visa enquiry",
-    // href: "#contact",
-    overlay: mark("Visa Services"),
-    image: "/images/dubai.png",
-    imageAlt: "Dubai international hub",
+    id: "img-37",
+    href: "#locations",
+    overlay: mark("MUTEENA"),
+    image: "/offices/MUTEENA/3.jpg",
+    imageAlt: "MUTEENA office",
   },
   {
-    id: "financial",
-    // title: "Accounts, compliance and financial clarity.",
-    // description:
-    //   "From bookkeeping to VAT filing, GBH's financial team keeps your business on track and fully compliant.",
-    // action: "Talk to an advisor",
-    // href: "#contact",
-    overlay: mark("Financial Consulting"),
-    image: "/images/meeting.jpg",
-    imageAlt: "Business meeting",
+    id: "img-38",
+    href: "#locations",
+    overlay: mark("MUTEENA"),
+    image: "/offices/MUTEENA/4.jpg",
+    imageAlt: "MUTEENA office",
   },
   {
-    id: "legal",
-    // description:
-    //   "Contract drafting, document attestation and PRO services — handled by GBH so you can focus on growing.",
-    // action: "Legal enquiry",
-    // href: "#contact",
-    overlay: mark("Legal Services"),
-    image: "/images/workspace.jpg",
-    imageAlt: "Professional workspace",
+    id: "img-39",
+    href: "#locations",
+    overlay: mark("MUTEENA"),
+    image: "/offices/MUTEENA/5.jpg",
+    imageAlt: "MUTEENA office",
   },
+  {
+    id: "img-40",
+    href: "#locations",
+    overlay: mark("MUTEENA"),
+    image: "/offices/MUTEENA/6.jpg",
+    imageAlt: "MUTEENA office",
+  },
+  {
+    id: "img-41",
+    href: "#locations",
+    overlay: mark("MUTEENA"),
+    image: "/offices/MUTEENA/7.jpg",
+    imageAlt: "MUTEENA office",
+  },
+  {
+    id: "img-42",
+    href: "#locations",
+    overlay: mark("MUTEENA"),
+    image: "/offices/MUTEENA/8.jpg",
+    imageAlt: "MUTEENA office",
+  },
+  {
+    id: "img-43",
+    href: "#locations",
+    overlay: mark("MUTEENA"),
+    image: "/offices/MUTEENA/9.jpg",
+    imageAlt: "MUTEENA office",
+  },
+  {
+    id: "img-44",
+    href: "#locations",
+    overlay: mark("MUTEENA"),
+    image: "/offices/MUTEENA/10.jpg",
+    imageAlt: "MUTEENA office",
+  },
+  {
+    id: "img-45",
+    href: "#locations",
+    overlay: mark("MUTEENA"),
+    image: "/offices/MUTEENA/11.jpg",
+    imageAlt: "MUTEENA office",
+  },
+  // {
+  //   id: "img-46",
+  //   href: "#locations",
+  //   overlay: mark("RASAL KHOR SAEED SUHAIL"),
+  //   image: "/offices/RASAL KHOR SAEED SUHAIL/10.jpg",
+  //   imageAlt: "RASAL KHOR SAEED SUHAIL office"
+  // },
+  // {
+  //   id: "img-47",
+  //   href: "#locations",
+  //   overlay: mark("RASAL KHOR SAEED SUHAIL"),
+  //   image: "/offices/RASAL KHOR SAEED SUHAIL/11.jpg",
+  //   imageAlt: "RASAL KHOR SAEED SUHAIL office"
+  // },
+  // {
+  //   id: "img-48",
+  //   href: "#locations",
+  //   overlay: mark("RASAL KHOR SAEED SUHAIL"),
+  //   image: "/offices/RASAL KHOR SAEED SUHAIL/3.jpeg",
+  //   imageAlt: "RASAL KHOR SAEED SUHAIL office"
+  // },
+  // {
+  //   id: "img-49",
+  //   href: "#locations",
+  //   overlay: mark("RASAL KHOR SAEED SUHAIL"),
+  //   image: "/offices/RASAL KHOR SAEED SUHAIL/4.jpeg",
+  //   imageAlt: "RASAL KHOR SAEED SUHAIL office"
+  // },
+  // {
+  //   id: "img-50",
+  //   href: "#locations",
+  //   overlay: mark("RASAL KHOR SAEED SUHAIL"),
+  //   image: "/offices/RASAL KHOR SAEED SUHAIL/5.jpeg",
+  //   imageAlt: "RASAL KHOR SAEED SUHAIL office"
+  // },
+  // {
+  //   id: "img-51",
+  //   href: "#locations",
+  //   overlay: mark("RASAL KHOR SAEED SUHAIL"),
+  //   image: "/offices/RASAL KHOR SAEED SUHAIL/6.jpeg",
+  //   imageAlt: "RASAL KHOR SAEED SUHAIL office"
+  // },
+  // {
+  //   id: "img-52",
+  //   href: "#locations",
+  //   overlay: mark("RASAL KHOR SAEED SUHAIL"),
+  //   image: "/offices/RASAL KHOR SAEED SUHAIL/7.jpeg",
+  //   imageAlt: "RASAL KHOR SAEED SUHAIL office"
+  // },
+  // {
+  //   id: "img-53",
+  //   href: "#locations",
+  //   overlay: mark("RASAL KHOR SAEED SUHAIL"),
+  //   image: "/offices/RASAL KHOR SAEED SUHAIL/8.jpeg",
+  //   imageAlt: "RASAL KHOR SAEED SUHAIL office"
+  // },
+  // {
+  //   id: "img-54",
+  //   href: "#locations",
+  //   overlay: mark("RASAL KHOR SAEED SUHAIL"),
+  //   image: "/offices/RASAL KHOR SAEED SUHAIL/9.jpeg",
+  //   imageAlt: "RASAL KHOR SAEED SUHAIL office"
+  // },
+  // {
+  //   id: "img-55",
+  //   href: "#locations",
+  //   overlay: mark("SAEED TOWER"),
+  //   image: "/offices/SAEED TOWER/1.jpg",
+  //   imageAlt: "SAEED TOWER office"
+  // },
+  // {
+  //   id: "img-56",
+  //   href: "#locations",
+  //   overlay: mark("SAEED TOWER"),
+  //   image: "/offices/SAEED TOWER/20240606_165445.jpg",
+  //   imageAlt: "SAEED TOWER office"
+  // },
+  // {
+  //   id: "img-57",
+  //   href: "#locations",
+  //   overlay: mark("SAEED TOWER"),
+  //   image: "/offices/SAEED TOWER/20240622_151306.jpg",
+  //   imageAlt: "SAEED TOWER office"
+  // },
+  // {
+  //   id: "img-58",
+  //   href: "#locations",
+  //   overlay: mark("SAEED TOWER"),
+  //   image: "/offices/SAEED TOWER/6.jpg",
+  //   imageAlt: "SAEED TOWER office"
+  // },
+  // {
+  //   id: "img-59",
+  //   href: "#locations",
+  //   overlay: mark("SAEED TOWER"),
+  //   image: "/offices/SAEED TOWER/8.jpg",
+  //   imageAlt: "SAEED TOWER office"
+  // },
+  // {
+  //   id: "img-60",
+  //   href: "#locations",
+  //   overlay: mark("SAEED TOWER"),
+  //   image: "/offices/SAEED TOWER/b.jpg",
+  //   imageAlt: "SAEED TOWER office"
+  // },
+  // {
+  //   id: "img-61",
+  //   href: "#locations",
+  //   overlay: mark("SAEED TOWER"),
+  //   image: "/offices/SAEED TOWER/c.jpg",
+  //   imageAlt: "SAEED TOWER office"
+  // },
+  // {
+  //   id: "img-62",
+  //   href: "#locations",
+  //   overlay: mark("SAEED TOWER"),
+  //   image: "/offices/SAEED TOWER/h.jpg",
+  //   imageAlt: "SAEED TOWER office"
+  // },
+  // {
+  //   id: "img-63",
+  //   href: "#locations",
+  //   overlay: mark("WHITE SWAN"),
+  //   image: "/offices/WHITE SWAN/DSC05951.jpg",
+  //   imageAlt: "WHITE SWAN office"
+  // },
+  // {
+  //   id: "img-64",
+  //   href: "#locations",
+  //   overlay: mark("WHITE SWAN"),
+  //   image: "/offices/WHITE SWAN/DSC05959.jpg",
+  //   imageAlt: "WHITE SWAN office"
+  // },
+  // {
+  //   id: "img-65",
+  //   href: "#locations",
+  //   overlay: mark("WHITE SWAN"),
+  //   image: "/offices/WHITE SWAN/DSC05970.jpg",
+  //   imageAlt: "WHITE SWAN office"
+  // },
+  // {
+  //   id: "img-66",
+  //   href: "#locations",
+  //   overlay: mark("WHITE SWAN"),
+  //   image: "/offices/WHITE SWAN/DSC05973.jpg",
+  //   imageAlt: "WHITE SWAN office"
+  // },
+  // {
+  //   id: "img-67",
+  //   href: "#locations",
+  //   overlay: mark("WHITE SWAN"),
+  //   image: "/offices/WHITE SWAN/DSC05995.jpg",
+  //   imageAlt: "WHITE SWAN office"
+  // },
+  // {
+  //   id: "img-68",
+  //   href: "#locations",
+  //   overlay: mark("WHITE SWAN"),
+  //   image: "/offices/WHITE SWAN/DSC06015.jpg",
+  //   imageAlt: "WHITE SWAN office"
+  // },
+  // {
+  //   id: "img-69",
+  //   href: "#locations",
+  //   overlay: mark("WHITE SWAN"),
+  //   image: "/offices/WHITE SWAN/DSC06051.jpg",
+  //   imageAlt: "WHITE SWAN office"
+  // },
+  // {
+  //   id: "img-70",
+  //   href: "#locations",
+  //   overlay: mark("WHITE SWAN"),
+  //   image: "/offices/WHITE SWAN/DSC06140.jpg",
+  //   imageAlt: "WHITE SWAN office"
+  // },
+  // {
+  //   id: "img-71",
+  //   href: "#locations",
+  //   overlay: mark("WHITE SWAN"),
+  //   image: "/offices/WHITE SWAN/DSC06153.jpg",
+  //   imageAlt: "WHITE SWAN office"
+  // },
+  // {
+  //   id: "img-72",
+  //   href: "#locations",
+  //   overlay: mark("WHITE SWAN"),
+  //   image: "/offices/WHITE SWAN/DSC06195.jpg",
+  //   imageAlt: "WHITE SWAN office"
+  // },
+  // {
+  //   id: "img-73",
+  //   href: "#locations",
+  //   overlay: mark("WHITE SWAN"),
+  //   image: "/offices/WHITE SWAN/DSC06270.jpg",
+  //   imageAlt: "WHITE SWAN office"
+  // },
 ];
 
 export const Carousel = () => {

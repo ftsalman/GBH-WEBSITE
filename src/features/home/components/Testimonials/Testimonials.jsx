@@ -3,48 +3,225 @@ import { Icon } from "../Icon";
 
 const testimonialsData = [
   {
-    name: "Denis Slavska",
-    role: "CTO, Ailitic",
-    location: "New York City, New York",
-    quote: "They tailor their solutions to our specific needs and goals.",
-    company: "Ailitic",
-    avatar: "https://i.pravatar.cc/150?u=a042581f4e29026704d",
-  },
-  {
-    name: "Jahan Melad",
-    role: "Project Manager, Buildwave",
-    location: "New York City, New York",
-    quote: "They organized their work and internal management was outstanding.",
-    company: "BUILDWAVE",
-    avatar: "https://i.pravatar.cc/150?u=a042581f4e29026024d",
-  },
-  {
-    name: "Jim Halpert",
-    role: "Lead Engineering, Inhive Space",
-    location: "New York City, New York",
-    quote: "Working with them was a great experience.",
-    company: "InHive",
-    avatar: "https://i.pravatar.cc/150?u=a04258114e29026702d",
-  },
-  {
     name: "Mohammed Shafeer",
-    role: "GBH customer",
+    role: "GBH Client",
     location: "Dubai, UAE",
     quote:
-      "They made the entire company formation process simple and stress-free.",
-    company: "GBH",
-    avatar:
-      "https://i.pinimg.com/1200x/2e/93/02/2e9302acb2ea4f0e5eb53b90e8db4ceb.jpg",
+      "They made the entire company formation process simple and stress-free. Quick response, clear communication, and extremely knowledgeable team.",
+    avatar: null,
   },
   {
-    name: "Sarah Jenkins",
-    role: "Operations Director",
-    location: "London, UK",
+    name: "M Ramzan Jutt",
+    role: "GBH Client",
+    location: "Dubai, UAE",
     quote:
-      "Professional from start to finish. Highly recommend their corporate services.",
-    company: "Nexus Ltd",
-    avatar: "https://i.pravatar.cc/150?u=sj",
+      "Very neat and clean business center. Meeting room, pantry, and rooftop sitting area are a great plus. A very professional and comfortable environment.",
+    avatar: null,
   },
+  {
+    name: "Mishab Ali",
+    role: "GBH Client",
+    location: "Dubai, UAE",
+    quote:
+      "Great experience processing my family visa. The team was professional, supportive, and guided me through the entire process smoothly without any delays.",
+    avatar: null,
+  },
+  {
+    name: "Abdul Basit",
+    role: "GBH Client",
+    location: "Dubai, UAE",
+    quote:
+      "I applied for my family's UAE residence visas for the first time and the experience was excellent from start to finish. Very cooperative, professional, and polite.",
+    avatar: null,
+  },
+  {
+    name: "Mubashir Mohiuddin",
+    role: "GBH Client",
+    location: "Dubai, UAE",
+    quote:
+      "Starting our business in Dubai was very smooth with their support. From approvals and visa processing to office space setup, everything was handled professionally.",
+    avatar: null,
+  },
+  {
+    name: "Mowjooth Fowmy",
+    role: "GBH Client",
+    location: "Dubai, UAE",
+    quote:
+      "Great first impression with a modern and professional office setup. Prime location on Sheikh Zayed Road at White Swan Building.",
+    avatar: null,
+  },
+  {
+    name: "Rukn Al Taqdeer Typing",
+    role: "GBH Client",
+    location: "Dubai, UAE",
+    quote:
+      "They handled my work so quickly and efficiently — everything was done perfectly. The team is very professional, responsive, and easy to deal with.",
+    avatar: null,
+  },
+  {
+    name: "Awais Ashraf",
+    role: "GBH Client",
+    location: "Dubai, UAE",
+    quote:
+      "GBH provides excellent support. They helped me set up my company fast. Highly satisfied with their professionalism.",
+    avatar: null,
+  },
+  {
+    name: "P Kumar",
+    role: "GBH Client",
+    location: "Dubai, UAE",
+    quote:
+      "One of the best professional business centres, well maintained and ideally located on the most signature road of Dubai with a friendly staff.",
+    avatar: null,
+  },
+  {
+    name: "Qazi Ubaid",
+    role: "GBH Client",
+    location: "Dubai, UAE",
+    quote:
+      "Great experience at GBH Business Centre — smooth setup process and supportive management. Perfect location too.",
+    avatar: null,
+  },
+  {
+    name: "Rajesh Nalli",
+    role: "GBH Client",
+    location: "Dubai, UAE",
+    quote:
+      "Very quick and best team. Thanks for the assistance through my visa process inside the country. I appreciate everyone.",
+    avatar: null,
+  },
+  {
+    name: "Muhammadu Fasri",
+    role: "GBH Client",
+    location: "Dubai, UAE",
+    quote:
+      "The overall service experience was professional and well-handled by a friendly team.",
+    avatar: null,
+  },
+  {
+    name: "Sakhawat Ali Ghumman",
+    role: "GBH Client",
+    location: "Dubai, UAE",
+    quote:
+      "Excellent business solutions provider. Fast response and great coordination. GBH deserves five stars!",
+    avatar: null,
+  },
+  {
+    name: "Shohak Bangla",
+    role: "GBH Client",
+    location: "Dubai, UAE",
+    quote:
+      "Everything went perfectly smooth. The GBH team handled everything quickly. Highly recommended for startups.",
+    avatar: null,
+  },
+  {
+    name: "Md Monir Munir",
+    role: "GBH Client",
+    location: "Dubai, UAE",
+    quote:
+      "Professional support and great results. The GBH team made everything easy. I'm fully satisfied!",
+    avatar: null,
+  },
+  {
+    name: "Rome",
+    role: "GBH Client",
+    location: "Dubai, UAE",
+    quote:
+      "Everything is managed perfectly. Staff is well-trained and polite. Highly recommended business center.",
+    avatar: null,
+  },
+  {
+    name: "Mahammad Amir",
+    role: "GBH Client",
+    location: "Dubai, UAE",
+    quote:
+      "Professional office help and trusted business services at GBH.",
+    avatar: null,
+  },
+  {
+    name: "Rana Qasim121",
+    role: "GBH Client",
+    location: "Dubai, UAE",
+    quote:
+      "Staff is well-trained and polite. Highly recommended business center.",
+    avatar: null,
+  },
+  {
+    name: "Andrei Alipio",
+    role: "GBH Client",
+    location: "Dubai, UAE",
+    quote: "Friendly staff and a positive atmosphere.",
+    avatar: null,
+  },
+  {
+    name: "Malik Adnan",
+    role: "GBH Client",
+    location: "Dubai, UAE",
+    quote: "Best business center and friendly staff.",
+    avatar: null,
+  },
+  {
+    name: "Carlos Pazos",
+    role: "GBH Client",
+    location: "Dubai, UAE",
+    quote: "Amazing company, professional staff.",
+    avatar: null,
+  },
+  {
+    name: "Shoukat Hussain",
+    role: "GBH Client",
+    location: "Dubai, UAE",
+    quote: "Best support I've ever received.",
+    avatar: null,
+  },
+  {
+    name: "Nouman Khalid",
+    role: "GBH Client",
+    location: "Dubai, UAE",
+    quote: "GBH makes business setup easy.",
+    avatar: null,
+  },
+  {
+    name: "M Danish",
+    role: "GBH Client",
+    location: "Dubai, UAE",
+    quote: "This team's work is good.",
+    avatar: null,
+  },
+  {
+    name: "Lekin Q",
+    role: "GBH Client",
+    location: "Dubai, UAE",
+    quote: "A perfect solution for all business needs.",
+    avatar: null,
+  },
+  {
+    name: "Adnan Pawar",
+    role: "GBH Client",
+    location: "Dubai, UAE",
+    quote: "Top-class business center!",
+    avatar: null,
+  },
+  {
+    name: "Shrey Soni",
+    role: "GBH Client",
+    location: "Dubai, UAE",
+    quote: "All are good.",
+    avatar: null,
+  },
+];
+
+const avatarGradients = [
+  "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
+  "linear-gradient(135deg, #f093fb 0%, #f5576c 100%)",
+  "linear-gradient(135deg, #4facfe 0%, #00f2fe 100%)",
+  "linear-gradient(135deg, #43e97b 0%, #38f9d7 100%)",
+  "linear-gradient(135deg, #fa709a 0%, #fee140 100%)",
+  "linear-gradient(135deg, #a18cd1 0%, #fbc2eb 100%)",
+  "linear-gradient(135deg, #ff9a9e 0%, #fecfef 100%)",
+  "linear-gradient(135deg, #0ba360 0%, #3cba92 100%)",
+  "linear-gradient(135deg, #f7971e 0%, #ffd200 100%)",
+  "linear-gradient(135deg, #30cfd0 0%, #330867 100%)",
 ];
 
 export const Testimonials = () => {
@@ -120,23 +297,38 @@ export const Testimonials = () => {
               <div className="bg-gray-50 rounded-[32px] p-8 md:p-10 flex flex-col h-full border border-gray-100 shadow-sm">
                 {/* Top Row: Avatar and Badge */}
                 <div className="flex justify-between items-start mb-8">
-                  <div className="w-14 h-14 rounded-full overflow-hidden bg-gray-200 shrink-0">
-                    <img
-                      src={t.avatar}
-                      alt={t.name}
-                      className="w-full h-full object-cover"
-                    />
+                  {/* Avatar: photo if available, else first-letter initial */}
+                  <div className="w-14 h-14 rounded-full overflow-hidden shrink-0">
+                    {t.avatar ? (
+                      <img
+                        src={t.avatar}
+                        alt={t.name}
+                        className="w-full h-full object-cover"
+                      />
+                    ) : (
+                      <div
+                        className="w-full h-full flex items-center justify-center text-white font-bold text-xl"
+                        style={{
+                          background:
+                            avatarGradients[i % avatarGradients.length],
+                        }}
+                      >
+                        {t.name.charAt(0).toUpperCase()}
+                      </div>
+                    )}
                   </div>
 
-                  <div className="border border-gray-200 rounded-full px-4 py-2 flex items-center gap-2 bg-white shadow-sm">
-                    <Icon
-                      name="briefcase"
-                      size={14}
-                      className="text-gray-600"
-                    />
-                    <span className="font-semibold text-sm text-gray-900">
-                      {t.company}
-                    </span>
+                  {/* Google 5-star badge */}
+                  <div className="border border-gray-200 rounded-full px-3 py-1.5 flex items-center gap-1 bg-white shadow-sm">
+                    {[...Array(5)].map((_, si) => (
+                      <svg
+                        key={si}
+                        className="w-3.5 h-3.5 text-yellow-400 fill-yellow-400"
+                        viewBox="0 0 20 20"
+                      >
+                        <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.286 3.957a1 1 0 00.95.69h4.162c.969 0 1.371 1.24.588 1.81l-3.37 2.448a1 1 0 00-.364 1.118l1.287 3.957c.3.921-.755 1.688-1.54 1.118l-3.37-2.448a1 1 0 00-1.175 0l-3.37 2.448c-.784.57-1.838-.197-1.539-1.118l1.287-3.957a1 1 0 00-.364-1.118L2.05 9.384c-.783-.57-.38-1.81.588-1.81h4.162a1 1 0 00.95-.69l1.286-3.957z" />
+                      </svg>
+                    ))}
                   </div>
                 </div>
 

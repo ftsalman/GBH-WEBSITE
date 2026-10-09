@@ -444,12 +444,24 @@ export const Carousel = () => {
       className="section reveal py-14 md:py-20 overflow-hidden"
       id="carousel"
       style={{
-        marginLeft: "96px",
+        marginLeft: "clamp(0px, 96px, 96px)",
         marginRight: "-16px",
-        paddingLeft: "16px",
+        paddingLeft: "clamp(16px, 96px, 96px)",
         paddingRight: "6px",
       }}
     >
+      {/* On mobile: reset to full-width, no left bleed */}
+      <style>{`
+        @media (max-width: 767px) {
+          #carousel {
+            margin-left: 0 !important;
+            padding-left: 16px !important;
+            padding-right: 16px !important;
+            margin-right: 0 !important;
+          }
+        }
+      `}</style>
+
       <div className="section-heading mb-10 flex flex-col gap-2">
         <span className="eyebrow">OUR EXPERTISE</span>
         <h2>Explore Our Office Spaces</h2>

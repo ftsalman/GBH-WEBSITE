@@ -196,14 +196,14 @@ export const Hero = ({ menuOpen, setMenuOpen, setConsultation }) => {
           >
             {/* Video thumbnail */}
             <img
-              src="/images/locations/office.png"
+              src="/images/hero2.jpg"
               alt="GBH Video"
               className="w-full h-full object-cover opacity-90 group-hover:opacity-100 transition-opacity"
             />
 
             {/* Play Button */}
             <div className="absolute inset-0 flex items-center justify-center">
-              <div className="w-20 h-20 bg-white/20 backdrop-blur-sm rounded-2xl flex items-center justify-center text-white group-hover:bg-white/30 transition-colors shadow-lg">
+              <div className="w-20 h-20 bg-white/70 backdrop-blur-sm rounded-2xl flex items-center justify-center text-black group-hover:bg-white/60 transition-colors shadow-lg">
                 <svg
                   className="w-10 h-10 ml-1"
                   fill="currentColor"

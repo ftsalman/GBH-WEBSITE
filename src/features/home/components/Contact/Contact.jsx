@@ -31,9 +31,7 @@ export const Contact = () => (
         <div className="flex items-start gap-3">
           <Icon name="pin" size={19} />
           <span>
-            White Swan Building, Offices 105–106
-            <br />
-            Sheikh Zayed Road, Dubai, UAE
+            Al Rasheed Rd - Al Muteena - Deira - Dubai - United Arab Emirates
           </span>
         </div>
       </div>

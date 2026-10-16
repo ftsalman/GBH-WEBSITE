@@ -5,7 +5,7 @@ import { Icon } from "../Icon";
 export const Facilities = ({ setConsultation }) => (
   <section
     className="section reveal rounded-2xl bg-[#eff5e9] px-5 py-12 md:px-10 md:py-16"
-    id="spaces"
+    id="facilities"
   >
     <div className="grid items-end gap-8 md:grid-cols-[1fr_auto]">
       <div>

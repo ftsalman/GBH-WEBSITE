@@ -1,18 +1,33 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { CheckCircle2, X } from "lucide-react";
+import { fieldClass, timeframes } from "./contactFormConfig";
 
-const timeframes = ["Within 10 days", "Within 10–15 days", "Within 15–25 days"];
+const emptyForm = {
+  name: "",
+  email: "",
+  phone: "",
+  timeframe: "",
+  message: "",
+  website: "",
+};
 
-const fieldClass =
-  "mt-2 w-full min-w-0 rounded-lg border border-[#dce5d8] bg-[#f8faf6] px-4 py-3 outline-none focus:border-[#5e9154]";
+const CONTACT_ENDPOINT = (import.meta.env.VITE_API_URL ?? "") + "/api/contact";
 
 export const ContactForm = () => {
-  const [form, setForm] = useState({
-    name: "",
-    email: "",
-    phone: "",
-    timeframe: "",
-    message: "",
-  });
+  const [form, setForm] = useState(emptyForm);
+  const [status, setStatus] = useState("idle"); // idle | sending | sent | error
+  const [error, setError] = useState("");
+  const [lastSent, setLastSent] = useState(null);
+  const [showToast, setShowToast] = useState(false);
+
+  useEffect(() => {
+    if (showToast) {
+      const timer = setTimeout(() => {
+        setShowToast(false);
+      }, 5000);
+      return () => clearTimeout(timer);
+    }
+  }, [showToast]);
 
   const change = (event) =>
     setForm((current) => ({
@@ -20,22 +35,40 @@ export const ContactForm = () => {
       [event.target.name]: event.target.value,
     }));
 
+  const send = async (payload) => {
+    setStatus("sending");
+    setError("");
+    try {
+      const response = await fetch(CONTACT_ENDPOINT, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+      });
+      const data = await response.json().catch(() => ({}));
+      if (!response.ok) {
+        throw new Error(data.error || `Server error (${response.status})`);
+      }
+      setLastSent(payload);
+      setForm(emptyForm);
+      setStatus("sent");
+      setShowToast(true);
+    } catch (err) {
+      setError(
+        err.message ||
+          "Could not connect to the server. Please ensure the backend is running.",
+      );
+      setStatus("error");
+    }
+  };
+
   const submit = (event) => {
     event.preventDefault();
-    const subject = encodeURIComponent(`GBH website enquiry`);
-    const body = encodeURIComponent(
-      [
-        `Full name: ${form.name}`,
-        `Email address: ${form.email}`,
-        `Mobile number: ${form.phone}`,
-        `Planned start: ${form.timeframe}`,
-        form.message && `Message: ${form.message}`,
-      ]
-        .filter(Boolean)
-        .join("\n"),
-    );
-    window.location.href = `mailto:Info@gbhgroup.ae?subject=${subject}&body=${body}`;
+    send(form);
   };
+
+  const resend = () => send(lastSent);
+
+  const sending = status === "sending";
 
   return (
     <form
@@ -112,12 +145,78 @@ export const ContactForm = () => {
           className={`${fieldClass} resize-y`}
         />
       </label>
-      <p className="self-center text-[11px] leading-5 text-[#748071] sm:col-span-2">
-        Submitting opens your email app with the enquiry ready to send.
-      </p>
-      <button type="submit" className="button primary sm:col-span-2">
-        Submit
+      <input
+        type="text"
+        name="website"
+        tabIndex={-1}
+        autoComplete="off"
+        aria-hidden="true"
+        value={form.website}
+        onChange={change}
+        className="hidden"
+      />
+      {status === "sent" && (
+        <p
+          role="status"
+          className="flex flex-wrap items-center gap-x-2 rounded-lg bg-[#eff5e9] px-4 py-3 text-xs text-[#3f6b37] sm:col-span-2"
+        >
+          Thank you! Your enquiry has been sent. We'll be in touch soon.
+          <button
+            type="button"
+            onClick={resend}
+            className="font-semibold underline hover:text-[#1377ee]"
+          >
+            Didn't go through? Resend
+          </button>
+        </p>
+      )}
+      {status === "error" && (
+        <p
+          role="alert"
+          className="rounded-lg bg-red-50 px-4 py-3 text-xs text-red-700 sm:col-span-2"
+        >
+          {error}
+        </p>
+      )}
+      <button
+        type="submit"
+        disabled={sending}
+        className="button primary disabled:opacity-60 sm:col-span-2"
+      >
+        {sending ? "Sending…" : status === "error" ? "Try again" : "Submit"}
       </button>
+
+      {/* Floating Success Toast (Top Center) */}
+      <div
+        aria-live="polite"
+        className={`fixed top-6 left-1/2 -translate-x-1/2 z-50 w-full max-w-md px-4 transition-all duration-300 ease-out ${
+          showToast
+            ? "translate-y-0 opacity-100 pointer-events-auto"
+            : "-translate-y-6 opacity-0 pointer-events-none"
+        }`}
+      >
+        <div className="flex w-full items-start gap-3 rounded-2xl border border-[#d2e4cb] bg-white/95 p-4 shadow-xl backdrop-blur-md">
+          <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-[#eef7ec] text-[#3f6b37]">
+            <CheckCircle2 className="h-5 w-5" />
+          </div>
+          <div className="flex-1 pt-0.5">
+            <h4 className="text-sm font-semibold text-[#1f2b23]">
+              Enquiry Sent Successfully!
+            </h4>
+            <p className="mt-0.5 text-xs text-[#5a6b5e]">
+              Thank you for reaching out. We have received your message and will be in touch shortly.
+            </p>
+          </div>
+          <button
+            type="button"
+            onClick={() => setShowToast(false)}
+            aria-label="Close notification"
+            className="rounded-lg p-1 text-[#8b998a] transition hover:bg-[#f3f6f1] hover:text-[#1f2b23]"
+          >
+            <X className="h-4 w-4" />
+          </button>
+        </div>
+      </div>
     </form>
   );
 };

@@ -32,10 +32,12 @@ export const Hero = ({ menuOpen, setMenuOpen, setConsultation }) => {
           aria-label="Main navigation"
         >
           {[
+            ["Gallery", "#gallery"],
             ["Facilities", "#facilities"],
             ["Features", "#features"],
             ["Locations", "#locations"],
             ["Testimonials", "#testimonials"],
+            ["Contact", "#contact"],
           ].map(([name, href]) => (
             <a
               key={href}

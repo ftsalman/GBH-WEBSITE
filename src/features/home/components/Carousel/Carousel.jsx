@@ -442,7 +442,7 @@ export const Carousel = () => {
   return (
     <section
       className="section reveal py-14 md:py-20 overflow-hidden"
-      id="carousel"
+      id="gallery"
       style={{
         marginLeft: "clamp(0px, 96px, 96px)",
         marginRight: "-16px",
@@ -453,6 +453,7 @@ export const Carousel = () => {
       {/* On mobile: reset to full-width, no left bleed */}
       <style>{`
         @media (max-width: 767px) {
+          #gallery,
           #carousel {
             margin-left: 0 !important;
             padding-left: 16px !important;

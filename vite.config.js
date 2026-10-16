@@ -11,4 +11,16 @@ export default defineConfig({
       '@': resolve(import.meta.dirname, 'src'),
     },
   },
+  server: {
+    proxy: {
+      '/api': {
+        target: 'http://127.0.0.1:3001',
+        changeOrigin: true,
+        secure: false,
+      },
+    },
+     allowedHosts: [
+    "10e4d18ce6cc.ngrok-free.app"
+  ]
+  },
 })

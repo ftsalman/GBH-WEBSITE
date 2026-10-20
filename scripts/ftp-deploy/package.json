@@ -1,0 +1,11 @@
+{
+  "name": "gbh-ftp-deploy",
+  "private": true,
+  "type": "module",
+  "dependencies": {
+    "@samkirkland/ftp-deploy": "1.2.5"
+  },
+  "overrides": {
+    "basic-ftp": "6.2.3"
+  }
+}

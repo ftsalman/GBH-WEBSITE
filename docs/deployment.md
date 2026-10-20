@@ -11,6 +11,8 @@ Keep this as the only deployment workflow; a second `deploy.yml` with the same t
 
 Only files that changed since the last deploy are uploaded. The deploy keeps a small `.ftp-deploy-sync-state.json` file on the server for this; leave it there.
 
+The upload runs [scripts/ftp-deploy/deploy.mjs](../scripts/ftp-deploy/deploy.mjs) rather than `SamKirkland/FTP-Deploy-Action`. The action's built-in FTP library fails on Node 24 with `ECONNRESET (data socket)`: Hostinger refuses its FTPS file transfers. Keep the `basic-ftp` override in [scripts/ftp-deploy/package.json](../scripts/ftp-deploy/package.json).
+
 ## One-time setup
 
 ### 1. Get FTP details from Hostinger
@@ -67,5 +69,6 @@ To require approval before each deploy, open **Settings** â†’ **Environments** â
 - **Missing mail settings**: `SMTP_PASS` is set but a required mail variable is missing. The log names which.
 - **SMTP_PASS is not set** warning: the site still deploys, preserving the server's mail config. Configure that file or add the Actions mail settings above to enable contact email.
 - **FTP login or connection error**: check `FTP_SERVER`, `FTP_USERNAME` and `FTP_PASSWORD`. If it mentions TLS, set `FTP_PROTOCOL` to `ftp`.
+- **`ECONNRESET (data socket)`**: the FTPS session was not resumed on a file transfer. Check that `npm ls basic-ftp --prefix scripts/ftp-deploy` shows 6.2.3 or later.
 - **Files land in the wrong place**: fix `FTP_SERVER_DIR`, then delete the stray files over FTP.
 - **Contact endpoint check fails**: the upload worked but `/api/contact` does not answer. Check that `.htaccess` and `api/contact.php` exist in the site folder.

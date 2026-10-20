@@ -1,12 +1,13 @@
+
 name: CI/CD
 
 on:
   push:
-    branches: [main]
+    branches:
+      - main
   pull_request:
   workflow_dispatch:
 
-# A newer push to a pull request replaces its older run; runs on main are never cut short.
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: ${{ github.event_name == 'pull_request' }}
@@ -16,23 +17,25 @@ permissions:
 
 jobs:
   check:
-    name: Lint, test and build
+    name: Lint, Test and Build
     runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
 
-      - uses: actions/setup-node@v4
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
         with:
           node-version: 22
           cache: npm
-          cache-dependency-path: |
-            package-lock.json
-            server/package-lock.json
+          cache-dependency-path: package-lock.json
 
-      - name: Install dependencies
-        run: |
-          npm ci
-          npm ci --prefix server
+      - name: Install frontend dependencies
+        run: npm ci
+
+      - name: Install backend dependencies
+        run: npm ci --prefix server
 
       - name: Lint
         run: npm run lint
@@ -40,11 +43,17 @@ jobs:
       - name: Test
         run: npm test
 
-      - name: Build
+      - name: Build Vite website
         run: npm run build
 
-      # The deploy job ships exactly what was tested. .htaccess is a hidden file, so include it.
-      - name: Keep the build for deploy
+      - name: Verify build output
+        run: |
+          test -f dist/index.html || {
+            echo "::error::dist/index.html was not generated"
+            exit 1
+          }
+
+      - name: Upload tested build
         if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main'
         uses: actions/upload-artifact@v4
         with:
@@ -58,51 +67,77 @@ jobs:
     needs: check
     if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
+
     environment:
       name: production
       url: ${{ vars.SITE_URL || 'https://ads.gbhgroup.ae' }}
+
     concurrency:
       group: deploy-production
       cancel-in-progress: false
-    steps:
-      - uses: actions/checkout@v4
 
-      - uses: actions/setup-node@v4
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
         with:
           node-version: 22
 
-      - uses: actions/download-artifact@v4
+      - name: Download tested build
+        uses: actions/download-artifact@v4
         with:
           name: dist
           path: dist/
 
-      - name: Write contact form mail settings
+      - name: Verify deployment files
+        run: |
+          test -f dist/index.html || {
+            echo "::error::dist/index.html is missing"
+            exit 1
+          }
+
+      - name: Configure contact form mail settings
         run: node scripts/write-php-config.mjs dist/api/contact-config.php
         env:
           MAIL_FROM: ${{ vars.MAIL_FROM }}
           CONTACT_TO: ${{ vars.CONTACT_TO }}
           SMTP_HOST: ${{ vars.SMTP_HOST }}
           SMTP_PORT: ${{ vars.SMTP_PORT }}
-          SMTP_USER: ${{ vars.SMTP_USER }}
+          SMTP_USER: ${{ secrets.SMTP_USER }}
           SMTP_PASS: ${{ secrets.SMTP_PASS }}
 
-      # Uploads only files that changed since the last deploy (tracked in a state file on the server).
-      - name: Upload to Hostinger
+      - name: Deploy website to Hostinger
         uses: SamKirkland/FTP-Deploy-Action@v4.3.5
         with:
           server: ${{ secrets.FTP_SERVER }}
           username: ${{ secrets.FTP_USERNAME }}
           password: ${{ secrets.FTP_PASSWORD }}
           protocol: ${{ vars.FTP_PROTOCOL || 'ftps' }}
-          local-dir: ./dist/
-          server-dir: ${{ vars.FTP_SERVER_DIR || './' }}
+          port: 21
+          local-dir: dist/
+          server-dir: ${{ vars.FTP_SERVER_DIR || 'public_html/' }}
 
-      # The honeypot field makes the endpoint answer ok without sending an email.
-      - name: Check the live contact endpoint
+      - name: Check live contact endpoint
         env:
           SITE_URL: ${{ vars.SITE_URL || 'https://ads.gbhgroup.ae' }}
         run: |
-          response=$(curl -sS --retry 3 --retry-delay 5 -X POST "$SITE_URL/api/contact" \
-            -H "Content-Type: application/json" -d '{"website":"ci-check"}')
-          echo "Response: $response"
-          echo "$response" | grep -q '"ok":true' || { echo "::error::The contact endpoint is not answering. Check .htaccess and api/contact.php on the server."; exit 1; }
+          set -euo pipefail
+
+          response=$(curl --silent --show-error --fail \
+            --retry 3 \
+            --retry-delay 5 \
+            --retry-connrefused \
+            --request POST \
+            "${SITE_URL%/}/api/contact" \
+            --header "Content-Type: application/json" \
+            --data '{"website":"ci-check"}')
+
+          echo "Contact endpoint response: $response"
+
+          echo "$response" | grep -q '"ok":true' || {
+            echo "::error::Contact endpoint check failed."
+            echo "Check .htaccess, api/contact.php and PHP configuration."
+            exit 1
+          }

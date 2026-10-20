@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { CheckCircle2, Mail, MapPin, PhoneCall, X } from "lucide-react";
+import { submitContact } from "../../lib/contactApi";
 import {
   fieldClass,
   timeframes,
@@ -9,7 +10,6 @@ import {
 // page opens, and hides itself VISIBLE_FOR_MS later unless the visitor starts using it.
 const SHOW_AFTER_MS = 5000;
 const VISIBLE_FOR_MS = 10000;
-const CONTACT_ENDPOINT = (import.meta.env.VITE_API_URL ?? "") + "/api/contact";
 const FORM_ID = "contact-popup-form";
 
 const emptyForm = {
@@ -24,6 +24,7 @@ const emptyForm = {
 const labelClass = "min-w-0 text-xs font-medium text-[#1f3024]";
 
 export const ContactPopup = () => {
+  const submitting = useRef(false);
   const [open, setOpen] = useState(false);
   const [form, setForm] = useState(emptyForm);
   const [status, setStatus] = useState("idle"); // idle | sending | sent | error
@@ -65,23 +66,20 @@ export const ContactPopup = () => {
 
   const submit = async (event) => {
     event.preventDefault();
+    if (submitting.current) return;
+    submitting.current = true;
+    setEngaged(true);
     setStatus("sending");
     setError("");
     try {
-      const response = await fetch(CONTACT_ENDPOINT, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(form),
-      });
-      const data = await response.json().catch(() => ({}));
-      if (!response.ok) {
-        throw new Error(data.error || `Server error (${response.status})`);
-      }
+      await submitContact(form);
       setForm(emptyForm);
       setStatus("sent");
     } catch (err) {
       setError(err.message || "Could not send your message. Please try again.");
       setStatus("error");
+    } finally {
+      submitting.current = false;
     }
   };
 

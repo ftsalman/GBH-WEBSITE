@@ -1,6 +1,7 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { CheckCircle2, X } from "lucide-react";
 import { fieldClass, timeframes } from "./contactFormConfig";
+import { submitContact } from "../../../../lib/contactApi";
 
 const emptyForm = {
   name: "",
@@ -11,9 +12,8 @@ const emptyForm = {
   website: "",
 };
 
-const CONTACT_ENDPOINT = (import.meta.env.VITE_API_URL ?? "") + "/api/contact";
-
 export const ContactForm = () => {
+  const submitting = useRef(false);
   const [form, setForm] = useState(emptyForm);
   const [status, setStatus] = useState("idle"); // idle | sending | sent | error
   const [error, setError] = useState("");
@@ -36,18 +36,13 @@ export const ContactForm = () => {
     }));
 
   const send = async (payload) => {
+    if (submitting.current) return;
+    submitting.current = true;
     setStatus("sending");
     setError("");
+    setShowToast(false);
     try {
-      const response = await fetch(CONTACT_ENDPOINT, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(payload),
-      });
-      const data = await response.json().catch(() => ({}));
-      if (!response.ok) {
-        throw new Error(data.error || `Server error (${response.status})`);
-      }
+      await submitContact(payload);
       setLastSent(payload);
       setForm(emptyForm);
       setStatus("sent");
@@ -55,9 +50,11 @@ export const ContactForm = () => {
     } catch (err) {
       setError(
         err.message ||
-          "Could not connect to the server. Please ensure the backend is running.",
+          "Could not send your enquiry. Please try again.",
       );
       setStatus("error");
+    } finally {
+      submitting.current = false;
     }
   };
 

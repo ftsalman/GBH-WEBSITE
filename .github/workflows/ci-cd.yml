@@ -82,7 +82,7 @@ jobs:
           FTP_SERVER: ${{ secrets.FTP_SERVER }}
           FTP_USERNAME: ${{ secrets.FTP_USERNAME }}
           FTP_PASSWORD: ${{ secrets.FTP_PASSWORD }}
-          FTP_SERVER_DIR: ${{ vars.FTP_SERVER_DIR || 'public_html/' }}
+          FTP_SERVER_DIR: ${{ vars.FTP_SERVER_DIR || 'public_html/ads/' }}
         run: |
           for name in FTP_SERVER FTP_USERNAME FTP_PASSWORD; do
             if [[ -z "${!name}" ]]; then
@@ -145,7 +145,8 @@ jobs:
           protocol: ${{ vars.FTP_PROTOCOL || 'ftps' }}
           port: ${{ vars.FTP_PORT || '21' }}
           local-dir: ./dist/
-          server-dir: ${{ vars.FTP_SERVER_DIR || 'public_html/' }}
+          # FTP account root: /home/u449961891/domains/gbhgroup.ae/
+          server-dir: ${{ vars.FTP_SERVER_DIR || 'public_html/ads/' }}
           dangerous-clean-slate: false
           exclude: |
             **/.git*

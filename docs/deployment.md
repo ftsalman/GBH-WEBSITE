@@ -17,7 +17,7 @@ Only files that changed since the last deploy are uploaded. The deploy keeps a s
 
 hPanel → **Files** → **FTP Accounts**. Note the FTP host (an IP or `ftp.gbhgroup.ae`), the username and the password. Reset the password there if you do not have it.
 
-Find the folder that serves `ads.gbhgroup.ae`: hPanel → **Domains** → **Subdomains** shows each subdomain's folder, usually `public_html/ads`. The deploy folder is that path as seen by the FTP account, ending in `/`, for example `/public_html/ads/` or `/domains/gbhgroup.ae/public_html/ads/`. Log in with an FTP client such as FileZilla to check: the folder holds the current `index.html` and `assets/`.
+The confirmed document root for `ads.gbhgroup.ae` is `/home/u449961891/domains/gbhgroup.ae/public_html/ads`. For the website's FTP account, use `public_html/ads/` as the upload folder, ending in `/`. The workflow defaults to this path. If using a different FTP account restricted directly to the subdomain folder, use `./` instead. Log in with an FTP client such as FileZilla to verify: the folder holds the current `index.html` and `assets/`.
 
 ### 2. Add secrets and variables in GitHub
 
@@ -36,7 +36,7 @@ Repository → **Settings** → **Secrets and variables** → **Actions**.
 
 | Name | Value |
 |---|---|
-| `FTP_SERVER_DIR` | Deploy folder from step 1, ending in `/`. Defaults to `public_html/`. Set `./` if the FTP account opens directly in the site's document root, or set the subdomain's folder when different |
+| `FTP_SERVER_DIR` | `public_html/ads/` (the default). An existing variable overrides the workflow default, so replace any old `public_html/` value. Use `./` only for an FTP account restricted directly to the subdomain folder |
 | `MAIL_FROM` | `GBH Website <info@gbhgroup.ae>` |
 | `CONTACT_TO` | `gulfbusinesshubuae@gmail.com` (comma-separate several) |
 | `SMTP_HOST` | `premium312.web-hosting.com` |

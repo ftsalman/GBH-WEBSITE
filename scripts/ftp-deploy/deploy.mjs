@@ -2,7 +2,7 @@
 // Replaces SamKirkland/FTP-Deploy-Action, whose bundled basic-ftp predates the fix for resuming
 // FTPS sessions on data connections under Node.js 24.17+. package.json overrides basic-ftp for it.
 // Usage: FTP_SERVER=… FTP_USERNAME=… FTP_PASSWORD=… FTP_SERVER_DIR=… node scripts/ftp-deploy/deploy.mjs
-import { Readable } from "node:stream";
+import { Readable, Writable } from "node:stream";
 import { Client } from "basic-ftp";
 import { deploy, excludeDefaults } from "@samkirkland/ftp-deploy";
 import { currentSyncFileVersion, syncFileDescription } from "@samkirkland/ftp-deploy/dist/types.js";
@@ -56,6 +56,7 @@ async function seedStateFile() {
     await client.ensureDir(settings["server-dir"]);
     try {
       await client.size(STATE_NAME);
+      await forgetBrokenFiles(client);
       return;
     } catch (err) {
       if (err.code !== 550) throw err;
@@ -71,6 +72,36 @@ async function seedStateFile() {
   } finally {
     client.close();
   }
+}
+
+// ftp-deploy only compares local files with the state file, never with the server. A file that is
+// missing or truncated there (an interrupted upload, a manual delete) stays broken on every deploy.
+// Drop such files from the state file, so this deploy uploads them again.
+async function forgetBrokenFiles(client) {
+  const chunks = [];
+  const sink = new Writable({
+    write(chunk, _encoding, done) {
+      chunks.push(chunk);
+      done();
+    },
+  });
+  await client.downloadTo(sink, STATE_NAME);
+  const state = JSON.parse(Buffer.concat(chunks).toString("utf8"));
+
+  const broken = [];
+  for (const record of state.data) {
+    if (record.type !== "file" || record.name === STATE_NAME) continue;
+    const size = await client.size(record.name).catch((err) => {
+      if (err.code === 550) return undefined;
+      throw err;
+    });
+    if (size !== record.size) broken.push(record.name);
+  }
+  if (!broken.length) return;
+
+  console.log(`Missing or incomplete on the server, uploading again: ${broken.join(", ")}`);
+  state.data = state.data.filter((record) => !broken.includes(record.name));
+  await client.uploadFrom(Readable.from([JSON.stringify(state, undefined, 4)]), STATE_NAME);
 }
 
 // FTP_EXCLUDE: extra glob patterns, one per line. Excluded files are neither uploaded nor deleted.

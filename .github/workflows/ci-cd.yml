@@ -176,6 +176,23 @@ jobs:
           echo "::error::$SITE_URL serves ${live:-no recognisable build}, but this deploy uploaded $expected. The upload went to a folder this site does not serve: fix FTP_SERVER_DIR (or the FTP account) as described in docs/deployment.md."
           exit 1
 
+      # A partial upload still passes the check above; every static file must be served too.
+      - name: Check the live site serves every file
+        env:
+          SITE_URL: ${{ vars.SITE_URL || 'https://ads.gbhgroup.ae' }}
+        run: |
+          failed=0
+          while IFS= read -r file; do
+            path=${file#dist/}
+            status=$(curl -sS -o /dev/null -w '%{http_code}' --connect-timeout 10 --max-time 60 \
+              --retry 2 --retry-delay 5 "${SITE_URL%/}/${path// /%20}?deploy=${GITHUB_SHA}" || true)
+            if [[ "$status" != 200 ]]; then
+              echo "::error::${SITE_URL%/}/$path returned HTTP $status"
+              failed=1
+            fi
+          done < <(find dist -type f ! -path 'dist/api/*' ! -name '.*' | sort)
+          [[ $failed == 0 ]] && echo "All files are served." || { echo "Re-run this workflow: the deploy uploads missing or incomplete files again."; exit 1; }
+
       # Checks routing/PHP only; the honeypot returns before SMTP config is loaded.
       - name: Check the live contact endpoint
         env:

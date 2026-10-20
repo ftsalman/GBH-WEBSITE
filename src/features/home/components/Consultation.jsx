@@ -12,7 +12,7 @@ export function Consultation({ service, onClose }) {
     return () => {
       currentDialog.close();
       document.body.style.overflow = previous;
-      if (trigger instanceof HTMLElement) trigger.focus();
+      if (trigger instanceof HTMLElement) trigger.focus({ preventScroll: true });
     };
   }, []);
   return (
@@ -26,13 +26,13 @@ export function Consultation({ service, onClose }) {
       }}
     >
       <button
-        className="dialog-close icon-button"
+        className="lp-round-btn lp-dialog-close"
         onClick={onClose}
         aria-label="Close consultation"
       >
         <Icon name="close" />
       </button>
-      <span className="eyebrow">LET’S JUMP START</span>
+      <span className="lp-eyebrow">LET’S JUMP START</span>
       <h2 id="consultation-title">
         Let’s build your
         <br />
@@ -42,14 +42,24 @@ export function Consultation({ service, onClose }) {
         Speak with the GBH team about <strong>{service}</strong>. Get
         personalized guidance for your business.
       </p>
-      <a className="button primary" href="tel:+971548881820">
-        <Icon name="phone" /> <span>+971 54 888 1820</span> <Icon name="diagonal" />
+      <a className="lp-btn lp-btn-accent" href="tel:+971543053038">
+        <Icon name="phone" /> <span>+971 54 305 3038</span>
       </a>
       <a
-        className="button secondary"
-        href={`mailto:Info@gbhgroup.ae?subject=${encodeURIComponent(`Enquiry: ${service}`)}`}
+        className="lp-btn lp-btn-outline"
+        href="#contact"
+        onClick={(event) => {
+          event.preventDefault();
+          onClose();
+          // Scroll once the dialog has closed and page scrolling is restored.
+          requestAnimationFrame(() =>
+            document
+              .getElementById("contact")
+              ?.scrollIntoView({ behavior: "smooth" }),
+          );
+        }}
       >
-        <Icon name="mail" /> <span>Email our team</span> <Icon name="diagonal" />
+        <Icon name="mail" /> <span>Book a visit</span>
       </a>
       <p className="contact-note">
         White Swan Building, 1st Floor, Offices 105–106,

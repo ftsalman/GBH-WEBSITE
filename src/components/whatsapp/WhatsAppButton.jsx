@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 
 export const WhatsAppButton = ({
-  phoneNumber = "971548881820",
+  phoneNumber = "971543053038",
   message = "Hello GBH, I would like to inquire about business setup in Dubai.",
   companyName = "GBH Dubai",
 }) => {
@@ -10,7 +10,7 @@ export const WhatsAppButton = ({
   const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodedMessage}`;
 
   return (
-    <div className="fixed bottom-6 right-6 z-50 flex flex-col items-end">
+    <div className="fixed bottom-6 right-6 z-50 hidden md:flex flex-col items-end">
       {/* Tooltip / Prompt bubble */}
       <div
         className={`mb-2 origin-bottom-right transition-all duration-300 ease-out pointer-events-none ${
@@ -20,20 +20,20 @@ export const WhatsAppButton = ({
         }`}
         aria-hidden={!isHovered}
       >
-        <div className="relative flex items-center gap-2.5 rounded-2xl bg-white/95 px-4 py-2.5 text-xs text-[#1f3024] shadow-xl backdrop-blur-md border border-[#e8ede6]">
+        <div className="relative flex items-center gap-2.5 rounded-2xl bg-white/95 px-4 py-2.5 text-xs text-black shadow-xl backdrop-blur-md border border-[#e5e5e5]">
           <span className="relative flex h-2 w-2">
             <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-[#25D366] opacity-75"></span>
             <span className="relative inline-flex h-2 w-2 rounded-full bg-[#25D366]"></span>
           </span>
           <div>
-            <p className="font-semibold text-[13px] text-[#1f3024] leading-tight">
+            <p className="font-semibold text-[13px] text-black leading-tight">
               Chat on WhatsApp
             </p>
             <p className="text-[11px] text-[#657263] leading-tight mt-0.5">
               Instant business consultation
             </p>
           </div>
-          <div className="absolute -bottom-1.5 right-6 h-3 w-3 rotate-45 bg-white border-r border-b border-[#e8ede6]" />
+          <div className="absolute -bottom-1.5 right-6 h-3 w-3 rotate-45 bg-white border-r border-b border-[#e5e5e5]" />
         </div>
       </div>
 

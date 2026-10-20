@@ -1,5 +1,7 @@
 # Restore contact-form email delivery
 
+> The contact form now supports the existing mailbox through SMTP. Use [SMTP setup](smtp-setup.md) for `premium312.web-hosting.com:465`. The historical checks below apply only to the optional Resend provider; Resend DNS verification is not required for SMTP.
+
 Checked on 20 October 2026:
 
 - The local website at `http://localhost:5173` reaches `/api/contact`.

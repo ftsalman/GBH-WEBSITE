@@ -1,7 +1,8 @@
 import { useEffect, useRef, useState } from "react";
 import { CheckCircle2, X } from "lucide-react";
-import { fieldClass, timeframes } from "./contactFormConfig";
+import { timeframes } from "./contactFormConfig";
 import { submitContact } from "../../../../lib/contactApi";
+import { CONTACT } from "../../constants/homeData";
 
 const emptyForm = {
   name: "",
@@ -68,60 +69,55 @@ export const ContactForm = () => {
   const sending = status === "sending";
 
   return (
-    <form
-      onSubmit={submit}
-      className="grid min-w-0 gap-4 rounded-2xl bg-white p-6 shadow-xl shadow-[#263e31]/5 sm:grid-cols-2 md:p-8"
-    >
-      <div className="sm:col-span-2">
-        <span className="eyebrow">SEND AN ENQUIRY</span>
-        <h3 className="text-xl font-semibold">
-          Tell us what you have in mind.
-        </h3>
+    <form onSubmit={submit} className="lp-form">
+      <div className="lp-form-title lp-form-wide">
+        <span className="lp-eyebrow">Send an enquiry</span>
+        <h3>Tell us what you have in mind.</h3>
       </div>
-      <label className="min-w-0 text-xs font-medium">
+      <label className="lp-field">
         Full name
         <input
           required
           name="name"
           autoComplete="name"
+          placeholder="Your name"
           value={form.name}
           onChange={change}
-          className={fieldClass}
         />
       </label>
-      <label className="min-w-0 text-xs font-medium">
-        Email address
+      <label className="lp-field">
+        <span>
+          Email address <span className="lp-optional">(optional)</span>
+        </span>
         <input
-          required
           type="email"
           name="email"
           autoComplete="email"
+          placeholder="you@company.com"
           value={form.email}
           onChange={change}
-          className={fieldClass}
         />
       </label>
-      <label className="min-w-0 text-xs font-medium">
+      <label className="lp-field">
         Mobile number
         <input
           required
           type="tel"
           name="phone"
           autoComplete="tel"
+          placeholder="+971 50 123 4567"
           value={form.phone}
           onChange={change}
-          className={fieldClass}
         />
       </label>
 
-      <label className="min-w-0 text-xs font-medium">
+      <label className="lp-field">
         When do you plan to start?
         <select
           required
           name="timeframe"
           value={form.timeframe}
           onChange={change}
-          className={fieldClass}
         >
           <option value="" disabled>
             Select timeframe
@@ -132,14 +128,15 @@ export const ContactForm = () => {
         </select>
       </label>
 
-      <label className="min-w-0 text-xs font-medium sm:col-span-2">
-        Message <span className="font-normal text-[#748071]">(optional)</span>
+      <label className="lp-field lp-form-wide">
+        <span>
+          Message <span className="lp-optional">(optional)</span>
+        </span>
         <textarea
           name="message"
-          rows="4"
+          rows="3"
           value={form.message}
           onChange={change}
-          className={`${fieldClass} resize-y`}
         />
       </label>
       <input
@@ -153,35 +150,29 @@ export const ContactForm = () => {
         className="hidden"
       />
       {status === "sent" && (
-        <p
-          role="status"
-          className="flex flex-wrap items-center gap-x-2 rounded-lg bg-[#eff5e9] px-4 py-3 text-xs text-[#3f6b37] sm:col-span-2"
-        >
+        <p role="status" className="lp-form-status is-sent lp-form-wide">
           Thank you! Your enquiry has been sent. We'll be in touch soon.
-          <button
-            type="button"
-            onClick={resend}
-            className="font-semibold underline hover:text-[#1377ee]"
-          >
+          <button type="button" onClick={resend}>
             Didn't go through? Resend
           </button>
         </p>
       )}
       {status === "error" && (
-        <p
-          role="alert"
-          className="rounded-lg bg-red-50 px-4 py-3 text-xs text-red-700 sm:col-span-2"
-        >
+        <p role="alert" className="lp-form-status is-error lp-form-wide">
           {error}
         </p>
       )}
       <button
         type="submit"
         disabled={sending}
-        className="button primary disabled:opacity-60 sm:col-span-2"
+        className="lp-btn lp-btn-accent lp-form-submit lp-form-wide"
       >
         {sending ? "Sending…" : status === "error" ? "Try again" : "Submit"}
       </button>
+      <p className="lp-form-note lp-form-wide">
+        Prefer to talk? WhatsApp or call{" "}
+        <a href={CONTACT.tel}>{CONTACT.phone}</a>
+      </p>
 
       {/* Floating Success Toast (Top Center) */}
       <div
@@ -192,15 +183,15 @@ export const ContactForm = () => {
             : "-translate-y-6 opacity-0 pointer-events-none"
         }`}
       >
-        <div className="flex w-full items-start gap-3 rounded-2xl border border-[#d2e4cb] bg-white/95 p-4 shadow-xl backdrop-blur-md">
-          <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-[#eef7ec] text-[#3f6b37]">
+        <div className="flex w-full items-start gap-3 rounded-2xl border border-[#e5e5e5] bg-white/95 p-4 shadow-xl backdrop-blur-md">
+          <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-[#f5f5f5] text-black">
             <CheckCircle2 className="h-5 w-5" />
           </div>
           <div className="flex-1 pt-0.5">
-            <h4 className="text-sm font-semibold text-[#1f2b23]">
+            <h4 className="text-sm font-semibold text-black">
               Enquiry Sent Successfully!
             </h4>
-            <p className="mt-0.5 text-xs text-[#5a6b5e]">
+            <p className="mt-0.5 text-xs text-[#666666]">
               Thank you for reaching out. We have received your message and will be in touch shortly.
             </p>
           </div>
@@ -208,7 +199,7 @@ export const ContactForm = () => {
             type="button"
             onClick={() => setShowToast(false)}
             aria-label="Close notification"
-            className="rounded-lg p-1 text-[#8b998a] transition hover:bg-[#f3f6f1] hover:text-[#1f2b23]"
+            className="rounded-lg p-1 text-[#666666] transition hover:bg-[#f5f5f5] hover:text-black"
           >
             <X className="h-4 w-4" />
           </button>

@@ -1,0 +1,1421 @@
+/* Al Muteena landing page, in gbhgroup.ae colours: black on white with grey surfaces. Manrope headings over Inter. */
+.lp {
+  --ink: #000000;
+  --muted: #666666;
+  --accent: #000000;
+  --accent-hover: #242424;
+  --wash: #f5f5f5;
+  --wash-line: #e0e0e0;
+  --line: #e5e5e5;
+  --field: #cccccc;
+  --ground: #ffffff;
+  --whatsapp: #1e7a4c;
+  --whatsapp-hover: #18643e;
+  --alert: #8a3b12;
+  --star: #ffd900;
+  --on-dark: #bdbdbd;
+  background: var(--ground);
+  color: var(--ink);
+  font-family: Inter, system-ui, sans-serif;
+  font-size: 16px;
+  line-height: 1.55;
+}
+.lp h1,
+.lp h2,
+.lp h3 {
+  font-family: Manrope, Inter, sans-serif;
+}
+.lp :is(a, button, input, select, textarea):focus-visible {
+  outline: 3px solid var(--accent);
+  outline-offset: 3px;
+}
+.lp-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding-left: 24px;
+  padding-right: 24px;
+}
+.lp-section {
+  padding-top: 72px;
+  padding-bottom: 72px;
+}
+.lp-band-wash {
+  background: var(--wash);
+}
+.lp-band-white {
+  background: #fff;
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+}
+.lp-band-dark {
+  background: #161616;
+  color: #fff;
+}
+
+/* Section headings */
+.lp-heading {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.lp-heading-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 24px;
+}
+.lp-eyebrow {
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+.lp-h2 {
+  margin: 0;
+  font-size: 38px;
+  font-weight: 800;
+  letter-spacing: -1px;
+  line-height: 1.15;
+  text-wrap: balance;
+}
+.lp-lead {
+  margin: 0;
+  max-width: 620px;
+  font-size: 17px;
+  color: var(--muted);
+}
+
+/* Buttons */
+.lp-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  min-height: 52px;
+  padding: 14px 26px;
+  border: 1.5px solid transparent;
+  border-radius: 999px;
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 1.2;
+  text-align: center;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background-color 0.2s, color 0.2s, border-color 0.2s;
+}
+.lp-btn-sm {
+  min-height: 44px;
+  padding: 10px 20px;
+  font-size: 15px;
+}
+.lp-btn-accent {
+  background: var(--accent);
+  color: #fff;
+}
+.lp-btn-accent:hover {
+  background: var(--accent-hover);
+}
+.lp-btn-whatsapp {
+  background: var(--whatsapp);
+  color: #fff;
+}
+.lp-btn-whatsapp:hover {
+  background: var(--whatsapp-hover);
+}
+.lp-btn-outline {
+  background: #fff;
+  border-color: var(--ink);
+  color: var(--ink);
+}
+.lp-btn-outline:hover {
+  background: var(--wash);
+}
+.lp-btn-dark {
+  background: var(--ink);
+  color: #fff;
+}
+.lp-btn-dark:hover {
+  background: #242424;
+}
+.lp-btn-outline-light {
+  border-color: #fff;
+  color: #fff;
+}
+.lp-btn-outline-light:hover {
+  background: rgb(255 255 255 / 0.1);
+}
+.lp-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+/* Header: transparent over the hero, solid black once the page scrolls. */
+.lp-header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 40;
+  color: #fff;
+  border-bottom: 1px solid rgb(255 255 255 / 0.14);
+  transition: background-color 0.35s ease, border-color 0.35s ease;
+}
+.lp-header.is-scrolled {
+  background: rgb(0 0 0 / 0.88);
+  border-color: transparent;
+  backdrop-filter: blur(12px);
+}
+.lp-header .brand-logo {
+  filter: brightness(0) invert(1);
+}
+.lp-header-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding-top: 18px;
+  padding-bottom: 18px;
+}
+.lp-nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 28px;
+  font-size: 15px;
+  font-weight: 500;
+}
+.lp-nav a {
+  position: relative;
+  color: rgb(255 255 255 / 0.85);
+  text-decoration: none;
+  transition: color 0.2s;
+}
+.lp-nav a::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -6px;
+  height: 1px;
+  background: currentColor;
+  transform: scaleX(0);
+  transform-origin: right;
+  transition: transform 0.35s ease;
+}
+.lp-nav a:hover {
+  color: #fff;
+}
+.lp-nav a:hover::after {
+  transform: scaleX(1);
+  transform-origin: left;
+}
+.lp-header-actions {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+.lp-header-phone {
+  font-size: 15px;
+  font-weight: 600;
+  color: #fff;
+}
+.lp-icon-btn {
+  display: none;
+  width: 44px;
+  height: 44px;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid rgb(255 255 255 / 0.6);
+  border-radius: 999px;
+  color: #fff;
+  background: transparent;
+}
+
+/* Hero: full-bleed GBH reception photo under a dark wash. */
+.lp-hero-wrap {
+  position: relative;
+  isolation: isolate;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  overflow: hidden;
+  background: #000;
+  color: #fff;
+}
+.lp-hero-media {
+  position: absolute;
+  inset: -6% 0;
+  z-index: -2;
+  transform: translate3d(0, var(--parallax-y, 0px), 0);
+}
+.lp-hero-media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  animation: lp-drift 26s ease-in-out infinite alternate;
+}
+.lp-hero-wrap::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background:
+    linear-gradient(90deg, rgb(0 0 0 / 0.88) 0%, rgb(0 0 0 / 0.62) 48%, rgb(0 0 0 / 0.4) 100%),
+    linear-gradient(0deg, rgb(0 0 0 / 0.75) 0%, transparent 45%);
+}
+/* Auto side margins shrink flex children to their content; keep the full container width. */
+.lp-hero-wrap > .lp-container {
+  width: 100%;
+}
+.lp-hero {
+  flex: 1;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 56px;
+  padding-top: 148px;
+  padding-bottom: 56px;
+}
+.lp-hero-copy {
+  flex: 1 1 520px;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+}
+.lp-hero-copy .lp-eyebrow {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  color: rgb(255 255 255 / 0.8);
+  letter-spacing: 3px;
+}
+.lp-hero-copy .lp-eyebrow::before {
+  content: "";
+  width: 44px;
+  height: 1px;
+  background: currentColor;
+}
+.lp-hero h1 {
+  margin: 0;
+  font-size: clamp(40px, 5.2vw, 72px);
+  font-weight: 800;
+  line-height: 1.04;
+  letter-spacing: -2px;
+  text-wrap: balance;
+  color: #fff;
+}
+.lp-hero-text {
+  margin: 0;
+  max-width: 560px;
+  font-size: 18px;
+  line-height: 1.7;
+  color: rgb(255 255 255 / 0.78);
+}
+.lp-price-badge {
+  display: inline-flex;
+  align-self: flex-start;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 8px;
+  padding: 14px 20px;
+  border: 1px solid rgb(255 255 255 / 0.22);
+  border-radius: 14px;
+  background: rgb(255 255 255 / 0.08);
+  backdrop-filter: blur(10px);
+}
+.lp-price-badge > span:first-child {
+  font-size: 15px;
+  font-weight: 600;
+}
+.lp-price-badge strong {
+  font-family: Manrope, Inter, sans-serif;
+  font-size: 32px;
+  font-weight: 800;
+}
+.lp-price-badge > span:last-child {
+  font-size: 15px;
+  color: rgb(255 255 255 / 0.75);
+}
+.lp-checks {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px 24px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  font-weight: 500;
+  color: rgb(255 255 255 / 0.9);
+}
+.lp-checks li {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.lp-hero .lp-actions {
+  margin-top: 8px;
+}
+.lp-btn-light {
+  background: #fff;
+  color: #000;
+}
+.lp-btn-light:hover {
+  background: #e5e5e5;
+}
+.lp-availability {
+  margin: 0;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--star);
+}
+.lp-form-card {
+  flex: 1 1 380px;
+  min-width: 0;
+  padding: 32px;
+  border: 1px solid var(--line);
+  border-radius: 20px;
+  background: #fff;
+  color: var(--ink);
+  box-shadow: 0 12px 32px rgb(0 0 0 / 0.08);
+}
+.lp-hero .lp-form-card {
+  flex: 1 1 380px;
+  max-width: 440px;
+  padding: 24px;
+  border: 0;
+  border-radius: 18px;
+  box-shadow: 0 30px 80px rgb(0 0 0 / 0.45);
+}
+/* Compact hero form: paired fields, shorter inputs and message box. */
+.lp-hero .lp-form {
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+.lp-hero .lp-form-title {
+  gap: 2px;
+}
+.lp-hero .lp-form-title h3 {
+  font-size: 19px;
+}
+.lp-hero .lp-field {
+  gap: 4px;
+  font-size: 13px;
+}
+.lp-hero .lp-field :is(input, select) {
+  height: 44px;
+  padding: 0 12px;
+}
+.lp-hero .lp-field textarea {
+  height: 64px;
+  min-height: 64px;
+  padding: 10px 12px;
+}
+.lp-hero .lp-form-submit {
+  height: 48px;
+  font-size: 16px;
+}
+.lp-hero .lp-form-note {
+  font-size: 12px;
+}
+@media (max-width: 480px) {
+  .lp-hero .lp-form {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Hero entrance: copy and form rise in one after another. */
+.lp-hero-copy > *,
+.lp-hero .lp-form-card {
+  animation: lp-rise 0.9s cubic-bezier(0.2, 0.65, 0.3, 1) both;
+}
+.lp-hero-copy > :nth-child(2) { animation-delay: 0.08s; }
+.lp-hero-copy > :nth-child(3) { animation-delay: 0.16s; }
+.lp-hero-copy > :nth-child(4) { animation-delay: 0.24s; }
+.lp-hero-copy > :nth-child(5) { animation-delay: 0.32s; }
+.lp-hero-copy > :nth-child(6) { animation-delay: 0.4s; }
+.lp-hero .lp-form-card { animation-delay: 0.3s; }
+
+/* Enquiry form */
+.lp-form {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(max(220px, calc(50% - 8px)), 1fr));
+  gap: 18px 16px;
+  color: var(--ink);
+}
+.lp-form-wide {
+  grid-column: 1 / -1;
+}
+.lp-form-title {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.lp-form-title h3 {
+  margin: 0;
+  font-size: 24px;
+  font-weight: 800;
+  line-height: 1.2;
+}
+.lp-field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  min-width: 0;
+  font-size: 14px;
+  font-weight: 600;
+}
+.lp-field .lp-optional {
+  font-weight: 400;
+  color: var(--muted);
+}
+.lp-field :is(input, select, textarea) {
+  width: 100%;
+  min-width: 0;
+  height: 50px;
+  padding: 0 14px;
+  border: 1px solid var(--field);
+  border-radius: 10px;
+  background: #fff;
+  color: var(--ink);
+  font-family: inherit;
+  font-size: 16px;
+  font-weight: 400;
+}
+.lp-field textarea {
+  height: auto;
+  min-height: 110px;
+  padding: 12px 14px;
+  resize: vertical;
+}
+/* Focus: dark border plus a soft ring, instead of a heavy double outline. */
+.lp .lp-field :is(input, select, textarea):focus-visible {
+  outline: none;
+  border-color: var(--ink);
+  box-shadow: 0 0 0 3px rgb(0 0 0 / 0.12);
+}
+.lp-field :is(input, textarea)::placeholder {
+  color: #767676;
+}
+/* Smaller field text on larger screens; phones keep 16px so iOS does not zoom on focus. */
+@media (min-width: 768px) {
+  .lp-field :is(input, select, textarea) {
+    font-size: 15px;
+  }
+  .lp-hero .lp-field :is(input, select, textarea) {
+    font-size: 14px;
+  }
+}
+.lp-form-submit {
+  height: 56px;
+  font-size: 17px;
+}
+.lp-form-submit:disabled {
+  opacity: 0.6;
+  cursor: wait;
+}
+.lp-form-note {
+  margin: 0;
+  font-size: 13px;
+  text-align: center;
+  color: var(--muted);
+}
+.lp-form-note a {
+  font-weight: 600;
+  color: var(--accent);
+}
+.lp-form-status {
+  margin: 0;
+  padding: 12px 16px;
+  border-radius: 10px;
+  font-size: 14px;
+}
+.lp-form-status.is-sent {
+  background: var(--wash);
+  color: var(--accent);
+}
+.lp-form-status.is-sent button {
+  margin-left: 6px;
+  font-weight: 600;
+  text-decoration: underline;
+}
+.lp-form-status.is-error {
+  background: #fdeeee;
+  color: #a1281f;
+}
+
+/* Gallery */
+/* Fixed arrangements per width, so no photo wraps onto a row of its own. */
+.lp-gallery {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr;
+  grid-template-rows: 172px 172px;
+  grid-template-areas:
+    "large a c"
+    "large b c";
+  gap: 16px;
+}
+.lp-tile-large {
+  grid-area: large;
+}
+.lp-tile-a {
+  grid-area: a;
+}
+.lp-tile-b {
+  grid-area: b;
+}
+.lp-tile-c {
+  grid-area: c;
+}
+@media (max-width: 999px) {
+  .lp-gallery {
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: 320px 180px;
+    grid-template-areas:
+      "large large large"
+      "a b c";
+  }
+}
+@media (max-width: 639px) {
+  .lp-gallery {
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 220px 140px 200px;
+    grid-template-areas:
+      "large large"
+      "a b"
+      "c c";
+    gap: 12px;
+  }
+}
+.lp-tile {
+  position: relative;
+  overflow: hidden;
+  padding: 0;
+  border: 0;
+  border-radius: 18px;
+  background: #e5e5e5;
+  cursor: pointer;
+}
+.lp-tile img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s ease;
+}
+.lp-tile:hover img {
+  transform: scale(1.03);
+}
+.lp-tile-label {
+  position: absolute;
+  left: 16px;
+  bottom: 16px;
+  padding: 8px 14px;
+  border-radius: 999px;
+  background: rgb(255 255 255 / 0.92);
+  color: var(--ink);
+  font-size: 14px;
+  font-weight: 600;
+}
+.lp-play {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.lp-play span {
+  display: flex;
+  width: 72px;
+  height: 72px;
+  align-items: center;
+  justify-content: center;
+  border-radius: 999px;
+  background: rgb(255 255 255 / 0.92);
+  color: var(--ink);
+  box-shadow: 0 8px 24px rgb(0 0 0 / 0.25);
+}
+
+/* Dialogs: gallery, video and consultation */
+.lp-dialog {
+  margin: auto;
+  width: min(1000px, calc(100% - 32px));
+  max-width: none;
+  max-height: calc(100% - 32px);
+  padding: 0;
+  border: 0;
+  border-radius: 20px;
+  background: #000000;
+  color: #fff;
+  overflow: hidden;
+}
+.lp-dialog::backdrop,
+.consultation::backdrop {
+  background: rgb(0 0 0 / 0.75);
+}
+.lp-dialog-video {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+}
+.lp-dialog-video iframe {
+  display: block;
+  width: 100%;
+  height: 100%;
+  border: 0;
+}
+.lp-lightbox {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+}
+.lp-lightbox img {
+  width: 100%;
+  max-height: calc(100vh - 120px);
+  object-fit: contain;
+  background: #000000;
+}
+.lp-lightbox-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 12px 16px;
+  font-size: 14px;
+  color: var(--on-dark);
+}
+.lp-round-btn {
+  display: inline-flex;
+  width: 44px;
+  height: 44px;
+  align-items: center;
+  justify-content: center;
+  border: 1.5px solid currentColor;
+  border-radius: 999px;
+  color: inherit;
+  background: transparent;
+}
+.lp-dialog-close {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  z-index: 1;
+  background: rgb(0 0 0 / 0.6);
+  color: #fff;
+  border-color: rgb(255 255 255 / 0.6);
+}
+
+/* Facilities */
+.lp-facilities-head img {
+  width: 100%;
+  max-width: 300px;
+  aspect-ratio: 2.3;
+  border-radius: 16px;
+  object-fit: cover;
+}
+/* Equal-width columns, so a short last row keeps the same card size. */
+.lp-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 16px;
+}
+@media (min-width: 1000px) {
+  .lp-cards {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+.lp-facility {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 24px;
+  border-radius: 16px;
+  background: #fff;
+}
+.lp-facility-icon {
+  display: inline-flex;
+  width: 48px;
+  height: 48px;
+  margin-bottom: 12px;
+  align-items: center;
+  justify-content: center;
+  border-radius: 14px;
+  background: #000;
+  color: #fff;
+  transition: transform 0.35s ease;
+}
+.lp-facility:hover .lp-facility-icon {
+  transform: rotate(-6deg) scale(1.06);
+}
+.lp-facility h3 {
+  margin: 0;
+  font-family: Inter, system-ui, sans-serif;
+  font-size: 17px;
+  font-weight: 600;
+}
+.lp-facility p {
+  margin: 0;
+  font-size: 15px;
+  color: var(--muted);
+}
+
+/* Pricing */
+.lp-plan {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 26px;
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  background: #fff;
+}
+.lp-plan.is-popular {
+  border: 2px solid var(--accent);
+}
+.lp-plan-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+.lp-plan h3 {
+  margin: 0;
+  font-family: Inter, system-ui, sans-serif;
+  font-size: 18px;
+  font-weight: 600;
+}
+.lp-plan-badge {
+  padding: 4px 10px;
+  border-radius: 999px;
+  background: var(--wash);
+  color: var(--accent);
+  font-size: 12px;
+  font-weight: 600;
+}
+.lp-plan-price {
+  font-family: Manrope, Inter, sans-serif;
+  font-size: 28px;
+  font-weight: 800;
+}
+.lp-plan-price span {
+  font-family: Inter, system-ui, sans-serif;
+  font-size: 15px;
+  font-weight: 500;
+  color: var(--muted);
+}
+.lp-plan p {
+  margin: 0;
+  font-size: 15px;
+  color: var(--muted);
+}
+.lp-plan .lp-btn {
+  margin-top: auto;
+}
+
+/* Numbered steps */
+.lp-steps {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 32px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.lp-steps li {
+  flex: 1 1 230px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.lp-step-number {
+  font-family: Manrope, Inter, sans-serif;
+  font-size: 40px;
+  font-weight: 800;
+  line-height: 1.2;
+  color: var(--accent);
+}
+.lp-steps h3 {
+  margin: 0;
+  font-family: Inter, system-ui, sans-serif;
+  font-size: 18px;
+  font-weight: 600;
+}
+.lp-steps p {
+  margin: 0;
+  font-size: 15px;
+  color: var(--muted);
+}
+
+/* Locations */
+.lp-location {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: stretch;
+  gap: 32px;
+}
+.lp-map {
+  flex: 1 1 520px;
+  min-height: 340px;
+  overflow: hidden;
+  border-radius: 18px;
+  background: #e5e5e5;
+}
+.lp-map iframe {
+  display: block;
+  width: 100%;
+  height: 100%;
+  min-height: 340px;
+  border: 0;
+}
+.lp-location-info {
+  flex: 1 1 340px;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 16px;
+}
+.lp-centres {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.lp-centre {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+.lp-centre img {
+  width: 64px;
+  height: 64px;
+  flex-shrink: 0;
+  border-radius: 12px;
+  object-fit: cover;
+}
+.lp-centre a {
+  font-weight: 600;
+  color: var(--ink);
+}
+.lp-centre a:hover {
+  color: var(--accent);
+}
+.lp-centre p {
+  margin: 0;
+  font-size: 14px;
+  color: var(--muted);
+}
+
+/* Testimonials */
+.lp-reviews {
+  display: flex;
+  gap: 16px;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: none;
+  padding-bottom: 4px;
+}
+.lp-reviews::-webkit-scrollbar {
+  display: none;
+}
+.lp-review {
+  flex: 0 0 calc((100% - 32px) / 3);
+  scroll-snap-align: start;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  margin: 0;
+  padding: 26px;
+  border-radius: 18px;
+  background: #fff;
+}
+.lp-stars {
+  display: flex;
+  gap: 2px;
+  color: var(--star);
+}
+.lp-review blockquote {
+  margin: 0;
+  font-size: 17px;
+  line-height: 1.5;
+}
+.lp-review figcaption {
+  margin-top: auto;
+  font-size: 15px;
+  font-weight: 600;
+}
+.lp-review figcaption span {
+  font-weight: 400;
+  color: var(--muted);
+}
+.lp-review-nav {
+  display: flex;
+  gap: 10px;
+  color: var(--ink);
+}
+.lp-review-nav .lp-round-btn:hover {
+  background: #fff;
+}
+
+/* Contact band */
+.lp-contact {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 48px;
+}
+.lp-contact-copy {
+  flex: 1 1 460px;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+.lp-contact-copy .lp-eyebrow {
+  color: var(--on-dark);
+}
+.lp-contact-copy h2 {
+  margin: 0;
+  font-size: 44px;
+  font-weight: 800;
+  line-height: 1.1;
+  letter-spacing: -1px;
+  text-wrap: balance;
+}
+.lp-contact-copy > p {
+  margin: 0;
+  font-size: 18px;
+  color: var(--on-dark);
+}
+.lp-contact-lines {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  font-size: 15px;
+  color: var(--on-dark);
+}
+.lp-contact-lines li {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+}
+.lp-contact-lines a {
+  color: var(--on-dark);
+}
+.lp-contact-lines a:hover {
+  color: #fff;
+}
+.lp-contact .lp-form-card {
+  padding: 28px;
+  border: 0;
+  box-shadow: none;
+}
+
+/* Footer */
+.lp-footer {
+  background: #000000;
+  color: var(--on-dark);
+  font-size: 14px;
+}
+.lp-footer-main {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 32px;
+  padding-top: 48px;
+  padding-bottom: 32px;
+}
+.lp-footer-brand {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  max-width: 340px;
+}
+.lp-footer-brand img {
+  filter: brightness(0) invert(1);
+}
+.lp-footer-brand p {
+  margin: 0;
+}
+.lp-footer-col {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.lp-footer-label {
+  margin-bottom: 4px;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 1.5px;
+  color: #fff;
+}
+.lp-footer a {
+  color: var(--on-dark);
+}
+.lp-footer a:hover {
+  color: #fff;
+}
+.lp-footer-bottom {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 12px;
+  padding-top: 20px;
+  padding-bottom: 24px;
+  border-top: 1px solid #242424;
+}
+
+/* Mobile quick-contact bar */
+.lp-mobile-bar {
+  display: none;
+}
+
+/* Consultation dialog */
+.consultation {
+  margin: auto;
+  width: min(440px, calc(100% - 32px));
+  padding: 32px;
+  border: 0;
+  border-radius: 20px;
+  background: #fff;
+  color: var(--ink);
+  font-family: Inter, system-ui, sans-serif;
+  box-shadow: 0 24px 60px rgb(0 0 0 / 0.25);
+}
+.consultation[open] {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+.consultation h2 {
+  margin: 0;
+  font-size: 30px;
+  font-weight: 800;
+  line-height: 1.15;
+  letter-spacing: -0.5px;
+}
+.consultation p {
+  margin: 0;
+  color: var(--muted);
+}
+.consultation .lp-dialog-close {
+  background: #fff;
+  color: var(--ink);
+  border-color: var(--line);
+}
+.consultation .lp-btn {
+  width: 100%;
+}
+.consultation .contact-note {
+  font-size: 13px;
+}
+
+@media (max-width: 900px) {
+  .lp-nav {
+    display: none;
+  }
+  .lp-nav.is-open {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    padding: 8px 24px 16px;
+    background: #000;
+  }
+  .lp-nav.is-open a {
+    padding: 12px 0;
+  }
+  .lp-header-phone,
+  .lp-header-cta {
+    display: none;
+  }
+  .lp-icon-btn {
+    display: inline-flex;
+  }
+}
+
+@media (max-width: 767px) {
+  .lp {
+    /* Room for the fixed quick-contact bar. */
+    padding-bottom: 76px;
+  }
+  .lp-container {
+    padding-left: 16px;
+    padding-right: 16px;
+  }
+  .lp-section {
+    padding-top: 56px;
+    padding-bottom: 56px;
+  }
+  .lp-h2 {
+    font-size: 30px;
+  }
+  .lp-hero {
+    gap: 32px;
+    padding-top: 112px;
+    padding-bottom: 40px;
+  }
+  .lp-hero-copy {
+    gap: 14px;
+  }
+  .lp-hero h1 {
+    font-size: 36px;
+    line-height: 1.1;
+    letter-spacing: -1px;
+  }
+  .lp-hero-text {
+    font-size: 17px;
+  }
+  .lp-price-badge strong {
+    font-size: 24px;
+  }
+  .lp-checks {
+    gap: 6px 16px;
+    font-size: 14px;
+  }
+  .lp-form-card {
+    padding: 18px;
+    border-radius: 16px;
+  }
+  .lp-form-title h3 {
+    font-size: 19px;
+  }
+  .lp-review {
+    flex-basis: 85%;
+  }
+  .lp-contact-copy h2 {
+    font-size: 32px;
+  }
+  .lp-contact .lp-form-card {
+    padding: 18px;
+  }
+  .lp-mobile-bar {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 45;
+    display: flex;
+    gap: 8px;
+    height: 76px;
+    padding: 12px;
+    border-top: 1px solid var(--line);
+    background: #fff;
+    box-shadow: 0 -6px 18px rgb(0 0 0 / 0.08);
+  }
+  .lp-mobile-bar .lp-btn {
+    flex: 1 1 0;
+    min-height: 0;
+    padding: 0 8px;
+    border-radius: 12px;
+    font-size: 15px;
+  }
+  .lp-mobile-bar .lp-btn-whatsapp,
+  .lp-mobile-bar .lp-btn-accent {
+    flex-grow: 1.3;
+  }
+}
+
+/* Scroll motion (driven by ScrollEffects). Content only hides once the script is ready. */
+.reading-progress {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 60;
+  height: 2px;
+  background: #fff;
+  mix-blend-mode: difference;
+  transform: scaleX(0);
+  transform-origin: left;
+  pointer-events: none;
+}
+[data-motion-ready] [data-reveal] {
+  opacity: 0;
+  transform: translateY(28px);
+  transition:
+    opacity 0.8s ease var(--reveal-delay, 0ms),
+    transform 0.8s cubic-bezier(0.2, 0.65, 0.3, 1) var(--reveal-delay, 0ms);
+}
+[data-motion-ready] [data-reveal].is-visible {
+  opacity: 1;
+  transform: none;
+}
+.lp-facility,
+.lp-plan,
+.lp-review,
+.lp-centre img {
+  transition: transform 0.35s ease, box-shadow 0.35s ease;
+}
+.lp-facility:hover,
+.lp-plan:hover,
+.lp-review:hover,
+[data-motion-ready] :is(.lp-facility, .lp-plan, .lp-review)[data-reveal].is-visible:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 18px 40px rgb(0 0 0 / 0.08);
+}
+.lp-centre:hover img {
+  transform: scale(1.06);
+}
+.lp-btn {
+  transition: background-color 0.2s, color 0.2s, border-color 0.2s, transform 0.25s ease;
+}
+.lp-btn:hover {
+  transform: translateY(-2px);
+}
+@keyframes lp-rise {
+  from {
+    opacity: 0;
+    transform: translateY(28px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+@keyframes lp-drift {
+  from {
+    transform: scale(1.04);
+  }
+  to {
+    transform: scale(1.14) translate3d(-1%, -1%, 0);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .lp-hero-media img,
+  .lp-hero-copy > *,
+  .lp-hero .lp-form-card {
+    animation: none;
+  }
+}
+
+/* Phone typography and button rows. Placed last so it overrides the rules above. */
+@media (max-width: 767px) {
+  .lp {
+    font-size: 15px;
+  }
+  /* Button pairs share the row at equal widths instead of stacking. */
+  .lp-actions {
+    flex-wrap: nowrap;
+    gap: 10px;
+  }
+  /* Labels stay on one line: each button sizes to its text, then shares the spare room. */
+  .lp-actions > .lp-btn {
+    flex: 1 1 auto;
+    min-width: 0;
+    min-height: 48px;
+    padding: 12px;
+    gap: 8px;
+    font-size: clamp(13px, 3.8vw, 15px);
+    white-space: nowrap;
+  }
+  .lp-eyebrow {
+    font-size: 11px;
+    letter-spacing: 1.5px;
+  }
+  .lp-h2 {
+    font-size: 26px;
+    letter-spacing: -0.6px;
+  }
+  .lp-lead {
+    font-size: 15px;
+  }
+
+  /* Hero */
+  .lp-hero {
+    gap: 28px;
+    padding-top: 104px;
+  }
+  .lp-hero-copy {
+    gap: 14px;
+  }
+  .lp-hero-copy .lp-eyebrow {
+    gap: 10px;
+    letter-spacing: 2px;
+  }
+  .lp-hero-copy .lp-eyebrow::before {
+    width: 28px;
+  }
+  .lp-hero h1 {
+    font-size: 32px;
+    line-height: 1.1;
+    letter-spacing: -0.8px;
+  }
+  .lp-hero-text {
+    font-size: 15px;
+    line-height: 1.6;
+  }
+  .lp-checks {
+    gap: 6px 14px;
+    font-size: 13px;
+  }
+  .lp-checks svg {
+    width: 15px;
+    height: 15px;
+  }
+  .lp-hero .lp-actions {
+    margin-top: 4px;
+  }
+
+  /* Cards and lists */
+  .lp-facility {
+    padding: 20px;
+  }
+  .lp-facility-icon {
+    width: 42px;
+    height: 42px;
+    margin-bottom: 8px;
+  }
+  .lp-facility h3,
+  .lp-steps h3,
+  .lp-plan h3 {
+    font-size: 16px;
+  }
+  .lp-facility p,
+  .lp-steps p,
+  .lp-plan p {
+    font-size: 14px;
+  }
+  .lp-steps {
+    gap: 24px;
+  }
+  .lp-step-number {
+    font-size: 32px;
+  }
+  .lp-review {
+    padding: 22px;
+  }
+  .lp-review blockquote {
+    font-size: 15px;
+  }
+
+  .lp-hide-phone {
+    display: none;
+  }
+  .lp-facilities-head img {
+    max-width: none;
+    aspect-ratio: 2;
+  }
+
+  /* Contact band */
+  .lp-contact {
+    gap: 32px;
+  }
+  .lp-contact-copy {
+    gap: 14px;
+  }
+  .lp-contact-copy h2 {
+    font-size: 28px;
+    letter-spacing: -0.6px;
+  }
+  .lp-contact-copy > p {
+    font-size: 15px;
+  }
+}

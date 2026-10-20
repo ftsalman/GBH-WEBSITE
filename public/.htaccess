@@ -1,0 +1,10 @@
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  # The site posts to /api/contact; serve it from the PHP endpoint.
+  RewriteRule ^api/contact/?$ api/contact.php [L]
+</IfModule>
+
+# SMTP credentials: never serve the config file directly.
+<Files "contact-config.php">
+  Require all denied
+</Files>

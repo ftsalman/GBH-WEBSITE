@@ -28,3 +28,6 @@ dist-ssr
 .env
 .env.*
 !.env.example
+
+# PHP contact endpoint credentials (upload to the server separately)
+public/api/contact-config.php

@@ -48,6 +48,18 @@ test("both forms' shared client can submit all offered timeframes", async (t) =>
   assert.match(messages[0].text, /Full name: Visitor <test>/);
 });
 
+test("email is optional: enquiries without one still send, without a reply-to", async (t) => {
+  const messages = [];
+  const baseUrl = await startApi(t, async (message) => {
+    messages.push(message);
+    return { data: { id: "test-email" }, error: null };
+  });
+  await submitContact({ ...enquiry, email: "" }, { baseUrl });
+  assert.equal(messages.length, 1);
+  assert.equal(messages[0].replyTo, undefined);
+  assert.match(messages[0].text, /Email address: —/);
+});
+
 test("invalid fields and honeypot do not send emails", async (t) => {
   let calls = 0;
   const baseUrl = await startApi(t, async () => { calls++; });

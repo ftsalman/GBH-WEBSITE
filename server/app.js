@@ -38,7 +38,8 @@ export function createApp({ sendEmail, mailFrom, contactTo, corsOrigin }) {
       message: clean(body.message, 5000),
     };
 
-    if (!form.name || !form.phone || !emailPattern.test(form.email)) {
+    // Email is optional, but must be valid when given.
+    if (!form.name || !form.phone || (form.email && !emailPattern.test(form.email))) {
       return res.status(400).json({ error: "Please fill in all required fields." });
     }
     if (!timeframes.includes(form.timeframe)) {
@@ -47,7 +48,7 @@ export function createApp({ sendEmail, mailFrom, contactTo, corsOrigin }) {
 
     const rows = [
       ["Full name", form.name],
-      ["Email address", form.email],
+      ["Email address", form.email || "—"],
       ["Mobile number", form.phone],
       ["Planned start", form.timeframe],
       ["Message", form.message || "—"],
@@ -57,7 +58,7 @@ export function createApp({ sendEmail, mailFrom, contactTo, corsOrigin }) {
       const { data, error } = await sendEmail({
         from: mailFrom,
         to: contactTo.split(",").map((email) => email.trim()).filter(Boolean),
-        replyTo: form.email,
+        replyTo: form.email || undefined,
         subject: `GBH website enquiry from ${form.name}`,
         text: rows.map(([label, value]) => `${label}: ${value}`).join("\n"),
         html: `<table cellpadding="6">${rows

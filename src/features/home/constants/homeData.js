@@ -1,5 +1,13 @@
 export const WEBSITE = "https://www.gbhgroup.ae";
 
+export const CONTACT = {
+  phone: "+971 54 305 3038",
+  tel: "tel:+971543053038",
+  whatsapp: "https://wa.me/971543053038",
+  email: "Info@gbhgroup.ae",
+  address: "Al Rasheed Rd - Al Muteena - Deira - Dubai - United Arab Emirates",
+};
+
 export const services = [
   {
     name: "Business setup",
@@ -155,7 +163,7 @@ export const facilityCards = [
   },
   {
     title: "Reception",
-    icon: "people",
+    icon: "bell",
     detail: "A professional reception area for welcoming your visitors.",
   },
   {
@@ -165,12 +173,12 @@ export const facilityCards = [
   },
   {
     title: "High-Speed Wi-Fi",
-    icon: "globe",
+    icon: "wifi",
     detail: "Stay connected throughout your working day.",
   },
   {
     title: "DEWA",
-    icon: "shield",
+    icon: "bolt",
     detail:
       "Essential electricity and water services included for your workspace.",
   },
@@ -183,10 +191,23 @@ export const facilityCards = [
 
 export const locations = [
   {
+    name: "Al Muteena",
+    centre: "Al Muteena",
+    address: "Al Muteena, Dubai",
+    phone: "+971 54 305 3038",
+    email: "info@gbhgroup.ae",
+    description: "Workspace options with shared amenities.",
+    image: "/images/locations/office.png",
+    mapEmbed:
+      "https://www.google.com/maps?q=25.2777768,55.3229686&z=16&output=embed",
+    mapLink:
+      "https://www.google.com/maps/place/GBH+Business+Center+LLC+(Corporate+Office)/@25.2777768,55.3229686,791m/data=!3m2!1e3!4b1!4m6!3m5!1s0x3e5f5d6b4ecee63f:0xe1e131f1fcd2017a!8m2!3d25.2777768!4d55.3229686!16s%2Fg%2F11xyn_yjz5?entry=ttu&g_ep=EgoyMDI2MTAwNi4wIKXMDSoASAFQAw%3D%3D",
+  },
+  {
     name: "Business Bay",
     centre: "Clover Bay Tower",
     address: "Clover Bay Tower, Business Bay, Dubai",
-    phone: "+971 54 888 1820",
+    phone: "+971 54 305 3038",
     email: "info@gbhgroup.ae",
     description: "Furnished offices with Wi-Fi and meeting rooms.",
     image: "/images/locations/business-bay.jpg",
@@ -195,27 +216,17 @@ export const locations = [
     name: "Sheikh Zayed Road",
     centre: "White Swan",
     address: "White Swan, Sheikh Zayed Road, Dubai",
-    phone: "+971 54 888 1820",
+    phone: "+971 54 305 3038",
     email: "info@gbhgroup.ae",
     description: "Reception, pantry and office spaces at White Swan.",
     image: "/images/locations/sheikh-zayed-road.jpg",
   },
-  {
-    name: "Al Muteena",
-    centre: "Al Muteena",
-    address: "Al Muteena, Dubai",
-    phone: "+971 54 888 1820",
-    email: "info@gbhgroup.ae",
-    description: "Workspace options with shared amenities.",
-    image: "/images/locations/office.png",
-    mapLink:
-      "https://www.google.com/maps/place/GBH+Business+Center+LLC+(Corporate+Office)/@25.2777768,55.3229686,791m/data=!3m2!1e3!4b1!4m6!3m5!1s0x3e5f5d6b4ecee63f:0xe1e131f1fcd2017a!8m2!3d25.2777768!4d55.3229686!16s%2Fg%2F11xyn_yjz5?entry=ttu&g_ep=EgoyMDI2MTAwNi4wIKXMDSoASAFQAw%3D%3D",
-  },
+
   {
     name: "Ras Al Khor",
     centre: "Saeed Suhail",
     address: "Saeed Suhail Building, Ras Al Khor, Dubai",
-    phone: "+971 54 888 1820",
+    phone: "+971 54 305 3038",
     email: "info@gbhgroup.ae",
     description: "Furnished office space with Ejari and meeting rooms.",
     image: "/images/locations/ras-al-khor.jpg",

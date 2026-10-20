@@ -66,6 +66,21 @@ export function Icon({ name, size = 20, ...props }) {
         <path d="M10 12h4" />
       </>
     ),
+    bell: (
+      <>
+        <path d="M4 18h16M6 18a6 6 0 0 1 12 0M12 9V7M10 7h4" />
+      </>
+    ),
+    wifi: (
+      <>
+        <path d="M2 9a15 15 0 0 1 20 0M5 12.5a10 10 0 0 1 14 0M8.5 16a5 5 0 0 1 7 0" />
+        <circle cx="12" cy="19" r="0.8" fill="currentColor" />
+      </>
+    ),
+    bolt: <path d="M13 2 4 14h7l-1 8 9-12h-7l1-8Z" />,
+    whatsapp: (
+      <path d="M21 11.5a8.4 8.4 0 0 1-12.5 7.4L3 20.5l1.6-5.3A8.4 8.4 0 1 1 21 11.5z" />
+    ),
     prayer: (
       <path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z" />
     ),

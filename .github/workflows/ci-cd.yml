@@ -82,7 +82,7 @@ jobs:
           FTP_SERVER: ${{ secrets.FTP_SERVER }}
           FTP_USERNAME: ${{ secrets.FTP_USERNAME }}
           FTP_PASSWORD: ${{ secrets.FTP_PASSWORD }}
-          FTP_SERVER_DIR: ${{ vars.FTP_SERVER_DIR || 'public_html/ads/' }}
+          FTP_SERVER_DIR: ${{ vars.FTP_SERVER_DIR }}
         run: |
           for name in FTP_SERVER FTP_USERNAME FTP_PASSWORD; do
             if [[ -z "${!name}" ]]; then
@@ -90,6 +90,11 @@ jobs:
               exit 1
             fi
           done
+          # No default: the folder depends on where the FTP account starts (see docs/deployment.md).
+          if [[ -z "$FTP_SERVER_DIR" ]]; then
+            echo "::error::Missing Actions variable FTP_SERVER_DIR: the site's document root relative to the FTP login folder, ending in /."
+            exit 1
+          fi
           if [[ "$FTP_SERVER" == *"://"* || "$FTP_SERVER" == *"/"* ]]; then
             echo "::error::FTP_SERVER must contain only the FTP hostname or IP, without a protocol or folder."
             exit 1
@@ -151,20 +156,43 @@ jobs:
           FTP_PROTOCOL: ${{ vars.FTP_PROTOCOL || 'ftps' }}
           FTP_PORT: ${{ vars.FTP_PORT || '21' }}
           FTP_LOCAL_DIR: ./dist/
-          # FTP account root: /home/u449961891/domains/gbhgroup.ae/
-          FTP_SERVER_DIR: ${{ vars.FTP_SERVER_DIR || 'public_html/ads/' }}
+          FTP_SERVER_DIR: ${{ vars.FTP_SERVER_DIR }}
           FTP_EXCLUDE: ${{ steps.mail.outputs.exclude }}
           FTP_LOG_LEVEL: ${{ vars.FTP_LOG_LEVEL || 'standard' }}
+
+      # A successful upload to the wrong folder looks like success; compare the live page's script
+      # bundle (its name changes with every build) with the one just uploaded.
+      - name: Check the live site serves this build
+        env:
+          SITE_URL: ${{ vars.SITE_URL || 'https://ads.gbhgroup.ae' }}
+        run: |
+          expected=$(grep -oE 'assets/index-[^"]+\.js' dist/index.html | head -1)
+          for attempt in 1 2 3; do
+            live=$(curl -sS --connect-timeout 10 --max-time 30 -H "Cache-Control: no-cache" \
+              "${SITE_URL%/}/?deploy=${GITHUB_SHA}" | grep -oE 'assets/index-[^"]+\.js' | head -1 || true)
+            [[ "$live" == "$expected" ]] && { echo "Live site serves $expected."; exit 0; }
+            sleep 10
+          done
+          echo "::error::$SITE_URL serves ${live:-no recognisable build}, but this deploy uploaded $expected. The upload went to a folder this site does not serve: fix FTP_SERVER_DIR (or the FTP account) as described in docs/deployment.md."
+          exit 1
 
       # Checks routing/PHP only; the honeypot returns before SMTP config is loaded.
       - name: Check the live contact endpoint
         env:
           SITE_URL: ${{ vars.SITE_URL || 'https://ads.gbhgroup.ae' }}
         run: |
-          response=$(curl --fail-with-body -sS --connect-timeout 10 --max-time 30 \
+          status=$(curl -sS -o response.json -w '%{http_code}' --connect-timeout 10 --max-time 30 \
             --retry 3 --retry-delay 5 --retry-connrefused -X POST "${SITE_URL%/}/api/contact" \
-            -H "Content-Type: application/json" -d '{"website":"ci-check"}')
-          echo "$response" | jq -e '.ok == true' > /dev/null || {
-            echo "::error::The contact endpoint is not answering. Check .htaccess and api/contact.php on the server."
-            exit 1
-          }
+            -H "Content-Type: application/json" -d '{"website":"ci-check"}' || true)
+          if [[ "$status" == 200 ]] && jq -e '.ok == true' response.json > /dev/null 2>&1; then
+            echo "Contact endpoint answers."
+            exit 0
+          fi
+          case "$status" in
+            404) hint="api/contact.php or the /api/contact rewrite in .htaccess is missing from the folder this site serves." ;;
+            405) hint="the request reached the server as something other than POST; check redirects (http to https, trailing slash)." ;;
+            5*) hint="PHP failed; check the PHP error log in hPanel." ;;
+            *) hint="unexpected response: $(head -c 300 response.json)" ;;
+          esac
+          echo "::error::POST ${SITE_URL%/}/api/contact returned HTTP $status: $hint"
+          exit 1

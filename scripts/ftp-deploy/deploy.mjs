@@ -1,7 +1,7 @@
 // Uploads dist/ to Hostinger over FTP(S), sending only files changed since the last deploy.
 // Replaces SamKirkland/FTP-Deploy-Action, whose bundled basic-ftp predates the fix for resuming
 // FTPS sessions on data connections under Node.js 24.17+. package.json overrides basic-ftp for it.
-// Usage: FTP_SERVER=… FTP_USERNAME=… FTP_PASSWORD=… node scripts/ftp-deploy/deploy.mjs
+// Usage: FTP_SERVER=… FTP_USERNAME=… FTP_PASSWORD=… FTP_SERVER_DIR=… node scripts/ftp-deploy/deploy.mjs
 import { Readable } from "node:stream";
 import { Client } from "basic-ftp";
 import { deploy, excludeDefaults } from "@samkirkland/ftp-deploy";
@@ -10,7 +10,7 @@ import { currentSyncFileVersion, syncFileDescription } from "@samkirkland/ftp-de
 const env = process.env;
 const STATE_NAME = ".ftp-deploy-sync-state.json";
 
-const missing = ["FTP_SERVER", "FTP_USERNAME", "FTP_PASSWORD"].filter((name) => !env[name]?.trim());
+const missing = ["FTP_SERVER", "FTP_USERNAME", "FTP_PASSWORD", "FTP_SERVER_DIR"].filter((name) => !env[name]?.trim());
 if (missing.length) {
   console.error(`Missing FTP settings: ${missing.join(", ")}.`);
   process.exit(1);
@@ -29,7 +29,7 @@ const settings = {
   port,
   protocol: env.FTP_PROTOCOL || "ftps",
   "local-dir": env.FTP_LOCAL_DIR || "./dist/",
-  "server-dir": env.FTP_SERVER_DIR || "public_html/ads/",
+  "server-dir": env.FTP_SERVER_DIR.trim(),
   "state-name": STATE_NAME,
 };
 
@@ -49,6 +49,10 @@ async function seedStateFile() {
       // Same as ftp-deploy's default "loose" security: Hostinger's certificate is for *.hstgr.io.
       secureOptions: { rejectUnauthorized: false },
     });
+    // FTP_SERVER_DIR is relative to this folder; logging its contents shows where the account starts.
+    const entries = (await client.list()).map((entry) => entry.name + (entry.isDirectory ? "/" : ""));
+    console.log(`FTP login folder ${await client.pwd()} contains: ${entries.join(", ") || "(empty)"}`);
+    console.log(`Uploading to: ${settings["server-dir"]}`);
     await client.ensureDir(settings["server-dir"]);
     try {
       await client.size(STATE_NAME);

@@ -19,7 +19,21 @@ The upload runs [scripts/ftp-deploy/deploy.mjs](../scripts/ftp-deploy/deploy.mjs
 
 hPanel → **Files** → **FTP Accounts**. Note the FTP host (an IP or `ftp.gbhgroup.ae`), the username and the password. Reset the password there if you do not have it.
 
-The confirmed document root for `ads.gbhgroup.ae` is `/home/u449961891/domains/gbhgroup.ae/public_html/ads`. For the website's FTP account, use `public_html/ads/` as the upload folder, ending in `/`. The workflow defaults to this path. If using a different FTP account restricted directly to the subdomain folder, use `./` instead. Log in with an FTP client such as FileZilla to verify: the folder holds the current `index.html` and `assets/`.
+`FTP_SERVER_DIR` is the folder that `ads.gbhgroup.ae` serves, written **relative to the folder the FTP account logs in to**. The workflow has no default for it, because a wrong value still uploads successfully, just to a folder nobody visits.
+
+What is known (October 2026):
+
+- The FTP account in the `FTP_*` secrets logs in to the document root of the **main** site, `gbhgroup.ae` (a Laravel app). Uploading to `public_html/ads/` therefore created a nested `public_html/public_html/ads/`, publicly visible at `https://gbhgroup.ae/public_html/ads/`.
+- The live `ads.gbhgroup.ae` files are **not** inside that FTP account, not even in an `ads/` folder next to the main site. `ads.gbhgroup.ae` is most likely its own website in hPanel, with its own document root.
+
+To find the right values:
+
+1. In hPanel, open the **ads.gbhgroup.ae** website (or **Domains → Subdomains**) and note its folder in **File Manager**: the folder holding the live `index.html` and `assets/`.
+2. Open **Files → FTP Accounts** *for that website*. Use an FTP account whose login folder contains that folder, or create one whose directory *is* that folder.
+3. Set `FTP_SERVER_DIR` to the site folder relative to the account's login folder: `./` when the account logs in directly to the site folder. Every deploy logs the login folder and its contents (`FTP login folder … contains: …`) to help check this.
+4. Never point it at the main site's folder: the build's `.htaccess` and `index.html` would replace the main site's.
+
+The deploy checks that `SITE_URL` serves the build it just uploaded and fails with a clear error if not.
 
 ### 2. Add secrets and variables in GitHub
 
@@ -38,7 +52,7 @@ Repository → **Settings** → **Secrets and variables** → **Actions**.
 
 | Name | Value |
 |---|---|
-| `FTP_SERVER_DIR` | `public_html/ads/` (the default). An existing variable overrides the workflow default, so replace any old `public_html/` value. Use `./` only for an FTP account restricted directly to the subdomain folder |
+| `FTP_SERVER_DIR` | **Required.** The `ads.gbhgroup.ae` document root relative to the FTP login folder, ending in `/` (see step 1). `./` for an FTP account that logs in directly to the site folder |
 | `MAIL_FROM` | `GBH Website <info@gbhgroup.ae>` |
 | `CONTACT_TO` | `gulfbusinesshubuae@gmail.com` (comma-separate several) |
 | `SMTP_HOST` | `premium312.web-hosting.com` |
@@ -48,7 +62,7 @@ Repository → **Settings** → **Secrets and variables** → **Actions**.
 | `FTP_PROTOCOL` | Optional. Defaults to `ftps`; set `ftp` if Hostinger refuses the secure connection |
 | `FTP_PORT` | Optional. Defaults to `21`; use the FTP port supplied by your host |
 
-The three `FTP_*` secrets shown above are sufficient to upload the site. Confirm `FTP_SERVER_DIR` before the first run so files reach the correct site folder.
+The three `FTP_*` secrets and the `FTP_SERVER_DIR` variable are required to upload the site.
 
 Contact email has two configuration options:
 
@@ -70,5 +84,6 @@ To require approval before each deploy, open **Settings** → **Environments** �
 - **SMTP_PASS is not set** warning: the site still deploys, preserving the server's mail config. Configure that file or add the Actions mail settings above to enable contact email.
 - **FTP login or connection error**: check `FTP_SERVER`, `FTP_USERNAME` and `FTP_PASSWORD`. If it mentions TLS, set `FTP_PROTOCOL` to `ftp`.
 - **`ECONNRESET (data socket)`**: a file transfer was dropped. Re-run with the Actions variable `FTP_LOG_LEVEL` set to `verbose` to log the full FTP conversation (passwords are masked), and check that `npm ls basic-ftp --prefix scripts/ftp-deploy` shows 6.2.3 or later.
-- **Files land in the wrong place**: fix `FTP_SERVER_DIR`, then delete the stray files over FTP.
-- **Contact endpoint check fails**: the upload worked but `/api/contact` does not answer. Check that `.htaccess` and `api/contact.php` exist in the site folder.
+- **Missing Actions variable FTP_SERVER_DIR**: set it as described in step 1.
+- **"serves …, but this deploy uploaded …"**: the upload succeeded into a folder `SITE_URL` does not serve. Fix `FTP_SERVER_DIR` or the FTP account (step 1), then delete the stray files over FTP.
+- **Contact endpoint check fails**: the error names the HTTP status. 404: `api/contact.php` or the `.htaccess` rewrite is missing from the served folder. 405: a redirect turned the POST into a GET. 5xx: see the PHP error log in hPanel.

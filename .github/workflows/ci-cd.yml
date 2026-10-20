@@ -18,6 +18,7 @@ jobs:
   check:
     name: Lint, test and build
     runs-on: ubuntu-latest
+    timeout-minutes: 15
     steps:
       - uses: actions/checkout@v4
 
@@ -49,8 +50,11 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: dist
-          path: dist/
+          path: |
+            dist/
+            !dist/api/contact-config.php
           include-hidden-files: true
+          if-no-files-found: error
           retention-days: 7
 
   deploy:
@@ -58,6 +62,7 @@ jobs:
     needs: check
     if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
+    timeout-minutes: 20
     environment:
       name: production
       url: ${{ vars.SITE_URL || 'https://ads.gbhgroup.ae' }}
@@ -65,6 +70,29 @@ jobs:
       group: deploy-production
       cancel-in-progress: false
     steps:
+      - name: Validate FTP settings
+        shell: bash
+        env:
+          FTP_SERVER: ${{ secrets.FTP_SERVER }}
+          FTP_USERNAME: ${{ secrets.FTP_USERNAME }}
+          FTP_PASSWORD: ${{ secrets.FTP_PASSWORD }}
+          FTP_SERVER_DIR: ${{ vars.FTP_SERVER_DIR || './' }}
+        run: |
+          for name in FTP_SERVER FTP_USERNAME FTP_PASSWORD; do
+            if [[ -z "${!name}" ]]; then
+              echo "::error::Missing Actions secret: $name"
+              exit 1
+            fi
+          done
+          if [[ "$FTP_SERVER" == *"://"* || "$FTP_SERVER" == *"/"* ]]; then
+            echo "::error::FTP_SERVER must contain only the FTP hostname or IP, without a protocol or folder."
+            exit 1
+          fi
+          if [[ "$FTP_SERVER_DIR" != */ ]]; then
+            echo "::error::FTP_SERVER_DIR must end with /."
+            exit 1
+          fi
+
       - uses: actions/checkout@v4
 
       - uses: actions/setup-node@v4
@@ -76,8 +104,17 @@ jobs:
           name: dist
           path: dist/
 
-      - name: Write contact form mail settings
-        run: node scripts/write-php-config.mjs dist/api/contact-config.php
+      - name: Prepare contact form mail settings
+        id: mail
+        shell: bash
+        run: |
+          if [[ -n "$SMTP_PASS" ]]; then
+            node scripts/write-php-config.mjs dist/api/contact-config.php
+          else
+            # Excluded files are neither uploaded nor deleted by the FTP action.
+            echo "exclude=**/api/contact-config.php" >> "$GITHUB_OUTPUT"
+            echo "::warning::SMTP_PASS is not set. Preserving api/contact-config.php on the server. Contact email requires that file to be configured there."
+          fi
         env:
           MAIL_FROM: ${{ vars.MAIL_FROM }}
           CONTACT_TO: ${{ vars.CONTACT_TO }}
@@ -94,15 +131,25 @@ jobs:
           username: ${{ secrets.FTP_USERNAME }}
           password: ${{ secrets.FTP_PASSWORD }}
           protocol: ${{ vars.FTP_PROTOCOL || 'ftps' }}
+          port: ${{ vars.FTP_PORT || '21' }}
           local-dir: ./dist/
           server-dir: ${{ vars.FTP_SERVER_DIR || './' }}
+          dangerous-clean-slate: false
+          exclude: |
+            **/.git*
+            **/.git*/**
+            **/node_modules/**
+            ${{ steps.mail.outputs.exclude }}
 
-      # The honeypot field makes the endpoint answer ok without sending an email.
+      # Checks routing/PHP only; the honeypot returns before SMTP config is loaded.
       - name: Check the live contact endpoint
         env:
           SITE_URL: ${{ vars.SITE_URL || 'https://ads.gbhgroup.ae' }}
         run: |
-          response=$(curl -sS --retry 3 --retry-delay 5 -X POST "$SITE_URL/api/contact" \
+          response=$(curl --fail-with-body -sS --connect-timeout 10 --max-time 30 \
+            --retry 3 --retry-delay 5 -X POST "${SITE_URL%/}/api/contact" \
             -H "Content-Type: application/json" -d '{"website":"ci-check"}')
-          echo "Response: $response"
-          echo "$response" | grep -q '"ok":true' || { echo "::error::The contact endpoint is not answering. Check .htaccess and api/contact.php on the server."; exit 1; }
+          echo "$response" | jq -e '.ok == true' > /dev/null || {
+            echo "::error::The contact endpoint is not answering. Check .htaccess and api/contact.php on the server."
+            exit 1
+          }

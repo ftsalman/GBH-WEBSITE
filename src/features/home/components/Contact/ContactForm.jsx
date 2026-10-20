@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react";
-import { CheckCircle2, X } from "lucide-react";
+import { createPortal } from "react-dom";
+import { CheckCircle2, CircleAlert, X } from "lucide-react";
 import { timeframes } from "./contactFormConfig";
 import { submitContact } from "../../../../lib/contactApi";
 import { CONTACT } from "../../constants/homeData";
@@ -17,18 +18,21 @@ export const ContactForm = () => {
   const submitting = useRef(false);
   const [form, setForm] = useState(emptyForm);
   const [status, setStatus] = useState("idle"); // idle | sending | sent | error
-  const [error, setError] = useState("");
   const [lastSent, setLastSent] = useState(null);
-  const [showToast, setShowToast] = useState(false);
+  // toast content is kept after closing so it can fade out
+  const [toast, setToast] = useState({ open: false, type: "success", title: "", message: "" });
 
   useEffect(() => {
-    if (showToast) {
+    if (toast.open) {
       const timer = setTimeout(() => {
-        setShowToast(false);
+        setToast((current) => ({ ...current, open: false }));
       }, 5000);
       return () => clearTimeout(timer);
     }
-  }, [showToast]);
+  }, [toast]);
+
+  const closeToast = () => setToast((current) => ({ ...current, open: false }));
+  const isError = toast.type === "error";
 
   const change = (event) =>
     setForm((current) => ({
@@ -40,20 +44,28 @@ export const ContactForm = () => {
     if (submitting.current) return;
     submitting.current = true;
     setStatus("sending");
-    setError("");
-    setShowToast(false);
+    closeToast();
     try {
       await submitContact(payload);
       setLastSent(payload);
       setForm(emptyForm);
       setStatus("sent");
-      setShowToast(true);
+      setToast({
+        open: true,
+        type: "success",
+        title: "Enquiry Sent Successfully!",
+        message:
+          "Thank you for reaching out. We have received your message and will be in touch shortly.",
+      });
     } catch (err) {
-      setError(
-        err.message ||
-          "Could not send your enquiry. Please try again.",
-      );
       setStatus("error");
+      setToast({
+        open: true,
+        type: "error",
+        title: "Enquiry Not Sent",
+        message:
+          err.message || "Could not send your enquiry. Please try again.",
+      });
     } finally {
       submitting.current = false;
     }
@@ -157,11 +169,6 @@ export const ContactForm = () => {
           </button>
         </p>
       )}
-      {status === "error" && (
-        <p role="alert" className="lp-form-status is-error lp-form-wide">
-          {error}
-        </p>
-      )}
       <button
         type="submit"
         disabled={sending}
@@ -174,37 +181,55 @@ export const ContactForm = () => {
         <a href={CONTACT.tel}>{CONTACT.phone}</a>
       </p>
 
-      {/* Floating Success Toast (Top Center) */}
-      <div
-        aria-live="polite"
-        className={`fixed top-6 left-1/2 -translate-x-1/2 z-50 w-full max-w-md px-4 transition-all duration-300 ease-out ${
-          showToast
-            ? "translate-y-0 opacity-100 pointer-events-auto"
-            : "-translate-y-6 opacity-0 pointer-events-none"
-        }`}
-      >
-        <div className="flex w-full items-start gap-3 rounded-2xl border border-[#e5e5e5] bg-white/95 p-4 shadow-xl backdrop-blur-md">
-          <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-[#f5f5f5] text-black">
-            <CheckCircle2 className="h-5 w-5" />
-          </div>
-          <div className="flex-1 pt-0.5">
-            <h4 className="text-sm font-semibold text-black">
-              Enquiry Sent Successfully!
-            </h4>
-            <p className="mt-0.5 text-xs text-[#666666]">
-              Thank you for reaching out. We have received your message and will be in touch shortly.
-            </p>
-          </div>
-          <button
-            type="button"
-            onClick={() => setShowToast(false)}
-            aria-label="Close notification"
-            className="rounded-lg p-1 text-[#666666] transition hover:bg-[#f5f5f5] hover:text-black"
+      {/* Floating Toast (Top Center) — portalled to body so no transformed ancestor can offset it */}
+      {createPortal(
+        <div
+          role={isError ? "alert" : "status"}
+          aria-live={isError ? "assertive" : "polite"}
+          className={`fixed top-6 left-1/2 z-1000 w-full max-w-md -translate-x-1/2 px-4 transition-all duration-300 ease-out ${
+            toast.open
+              ? "translate-y-0 opacity-100 pointer-events-auto"
+              : "-translate-y-6 opacity-0 pointer-events-none"
+          }`}
+        >
+          <div
+            className={`flex w-full items-start gap-3 rounded-2xl border bg-white/95 p-4 shadow-xl backdrop-blur-md ${
+              isError ? "border-[#fecaca]" : "border-[#e5e5e5]"
+            }`}
           >
-            <X className="h-4 w-4" />
-          </button>
-        </div>
-      </div>
+            <div
+              className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-xl ${
+                isError ? "bg-[#fef2f2] text-[#dc2626]" : "bg-[#f5f5f5] text-black"
+              }`}
+            >
+              {isError ? (
+                <CircleAlert className="h-5 w-5" />
+              ) : (
+                <CheckCircle2 className="h-5 w-5" />
+              )}
+            </div>
+            <div className="flex-1 pt-0.5">
+              <h4
+                className={`text-sm font-semibold ${
+                  isError ? "text-[#b91c1c]" : "text-black"
+                }`}
+              >
+                {toast.title}
+              </h4>
+              <p className="mt-0.5 text-xs text-[#666666]">{toast.message}</p>
+            </div>
+            <button
+              type="button"
+              onClick={closeToast}
+              aria-label="Close notification"
+              className="rounded-lg p-1 text-[#666666] transition hover:bg-[#f5f5f5] hover:text-black"
+            >
+              <X className="h-4 w-4" />
+            </button>
+          </div>
+        </div>,
+        document.body,
+      )}
     </form>
   );
 };

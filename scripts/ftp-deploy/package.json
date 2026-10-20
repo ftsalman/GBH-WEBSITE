@@ -3,9 +3,10 @@
   "private": true,
   "type": "module",
   "dependencies": {
-    "@samkirkland/ftp-deploy": "1.2.5"
+    "@samkirkland/ftp-deploy": "1.2.5",
+    "basic-ftp": "6.2.3"
   },
   "overrides": {
-    "basic-ftp": "6.2.3"
+    "basic-ftp": "$basic-ftp"
   }
 }

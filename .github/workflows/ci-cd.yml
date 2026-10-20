@@ -154,6 +154,7 @@ jobs:
           # FTP account root: /home/u449961891/domains/gbhgroup.ae/
           FTP_SERVER_DIR: ${{ vars.FTP_SERVER_DIR || 'public_html/ads/' }}
           FTP_EXCLUDE: ${{ steps.mail.outputs.exclude }}
+          FTP_LOG_LEVEL: ${{ vars.FTP_LOG_LEVEL || 'standard' }}
 
       # Checks routing/PHP only; the honeypot returns before SMTP config is loaded.
       - name: Check the live contact endpoint

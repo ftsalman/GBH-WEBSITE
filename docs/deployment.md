@@ -36,12 +36,12 @@ Repository → **Settings** → **Secrets and variables** → **Actions**.
 
 | Name | Value |
 |---|---|
-| `FTP_SERVER_DIR` | Deploy folder from step 1, ending in `/`. Defaults to `./`; use that only if the FTP account opens directly in the site's document root |
+| `FTP_SERVER_DIR` | Deploy folder from step 1, ending in `/`. Defaults to `public_html/`. Set `./` if the FTP account opens directly in the site's document root, or set the subdomain's folder when different |
 | `MAIL_FROM` | `GBH Website <info@gbhgroup.ae>` |
 | `CONTACT_TO` | `gulfbusinesshubuae@gmail.com` (comma-separate several) |
 | `SMTP_HOST` | `premium312.web-hosting.com` |
 | `SMTP_PORT` | `465` |
-| `SMTP_USER` | `info@gbhgroup.ae` |
+| `SMTP_USER` | `info@gbhgroup.ae`. Can also be an Actions secret; the secret takes precedence over the variable |
 | `SITE_URL` | Optional. Defaults to `https://ads.gbhgroup.ae` |
 | `FTP_PROTOCOL` | Optional. Defaults to `ftps`; set `ftp` if Hostinger refuses the secure connection |
 | `FTP_PORT` | Optional. Defaults to `21`; use the FTP port supplied by your host |

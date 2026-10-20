@@ -44,6 +44,12 @@ jobs:
       - name: Build
         run: npm run build
 
+      - name: Verify build output
+        run: |
+          test -f dist/index.html
+          test -f dist/.htaccess
+          test -f dist/api/contact.php
+
       # The deploy job ships exactly what was tested. .htaccess is a hidden file, so include it.
       - name: Keep the build for deploy
         if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main'
@@ -76,7 +82,7 @@ jobs:
           FTP_SERVER: ${{ secrets.FTP_SERVER }}
           FTP_USERNAME: ${{ secrets.FTP_USERNAME }}
           FTP_PASSWORD: ${{ secrets.FTP_PASSWORD }}
-          FTP_SERVER_DIR: ${{ vars.FTP_SERVER_DIR || './' }}
+          FTP_SERVER_DIR: ${{ vars.FTP_SERVER_DIR || 'public_html/' }}
         run: |
           for name in FTP_SERVER FTP_USERNAME FTP_PASSWORD; do
             if [[ -z "${!name}" ]]; then
@@ -104,6 +110,12 @@ jobs:
           name: dist
           path: dist/
 
+      - name: Verify deployment files
+        run: |
+          test -f dist/index.html
+          test -f dist/.htaccess
+          test -f dist/api/contact.php
+
       - name: Prepare contact form mail settings
         id: mail
         shell: bash
@@ -120,7 +132,7 @@ jobs:
           CONTACT_TO: ${{ vars.CONTACT_TO }}
           SMTP_HOST: ${{ vars.SMTP_HOST }}
           SMTP_PORT: ${{ vars.SMTP_PORT }}
-          SMTP_USER: ${{ vars.SMTP_USER }}
+          SMTP_USER: ${{ secrets.SMTP_USER || vars.SMTP_USER }}
           SMTP_PASS: ${{ secrets.SMTP_PASS }}
 
       # Uploads only files that changed since the last deploy (tracked in a state file on the server).
@@ -133,7 +145,7 @@ jobs:
           protocol: ${{ vars.FTP_PROTOCOL || 'ftps' }}
           port: ${{ vars.FTP_PORT || '21' }}
           local-dir: ./dist/
-          server-dir: ${{ vars.FTP_SERVER_DIR || './' }}
+          server-dir: ${{ vars.FTP_SERVER_DIR || 'public_html/' }}
           dangerous-clean-slate: false
           exclude: |
             **/.git*
@@ -147,7 +159,7 @@ jobs:
           SITE_URL: ${{ vars.SITE_URL || 'https://ads.gbhgroup.ae' }}
         run: |
           response=$(curl --fail-with-body -sS --connect-timeout 10 --max-time 30 \
-            --retry 3 --retry-delay 5 -X POST "${SITE_URL%/}/api/contact" \
+            --retry 3 --retry-delay 5 --retry-connrefused -X POST "${SITE_URL%/}/api/contact" \
             -H "Content-Type: application/json" -d '{"website":"ci-check"}')
           echo "$response" | jq -e '.ok == true' > /dev/null || {
             echo "::error::The contact endpoint is not answering. Check .htaccess and api/contact.php on the server."

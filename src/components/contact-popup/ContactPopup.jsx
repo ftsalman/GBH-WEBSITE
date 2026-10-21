@@ -234,10 +234,10 @@ export const ContactPopup = () => {
           )}
         </div>
 
-        {/* Right: contact information */}
-        <aside className="flex flex-col bg-black p-6 text-white md:w-[250px] md:p-7">
-          <h3 className="text-lg font-semibold md:pr-8">Contact Information</h3>
-          <ul className="mt-6 space-y-6 text-[13px] leading-snug">
+        {/* Contact information on desktop; actions only on mobile. */}
+        <aside className="flex flex-col bg-white p-6 text-black md:w-[250px] md:bg-black md:p-7 md:text-white">
+          <h3 className="hidden text-lg font-semibold md:block md:pr-8">Contact Information</h3>
+          <ul className="mt-6 hidden space-y-6 text-[13px] leading-snug md:block">
             <li className="flex gap-3">
               <MapPin className="mt-0.5 h-4 w-4 shrink-0 text-[#bdbdbd]" />
               <span>Al Rasheed Rd, Al Muteena, Deira, Dubai, UAE</span>
@@ -258,16 +258,18 @@ export const ContactPopup = () => {
               </a>
             </li>
           </ul>
-          {status !== "sent" && (
-            <button
-              type="submit"
-              form={FORM_ID}
-              disabled={sending}
-              className="mt-8 rounded-[28px] bg-white! px-6 py-3 text-sm font-medium text-black! shadow-md transition hover:-translate-y-0.5 hover:bg-[#e5e5e5]! disabled:opacity-60 md:mt-auto"
-            >
-              {sending ? "Sending…" : status === "error" ? "Try again" : "Submit"}
-            </button>
-          )}
+          <div className="flex gap-3 md:mt-auto md:block md:pt-8">
+            {status !== "sent" && (
+              <button
+                type="submit"
+                form={FORM_ID}
+                disabled={sending}
+                className="flex-1 rounded-[28px] bg-black! px-6 py-3 text-sm font-medium text-white! shadow-md transition hover:-translate-y-0.5 hover:bg-[#333333]! disabled:opacity-60 md:w-full md:bg-white! md:text-black! md:hover:bg-[#e5e5e5]!"
+              >
+                {sending ? "Sending…" : status === "error" ? "Try again" : "Submit"}
+              </button>
+            )}
+          </div>
         </aside>
 
         <button

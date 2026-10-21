@@ -21,19 +21,18 @@ hPanel → **Files** → **FTP Accounts**. Note the FTP host (an IP or `ftp.gbhg
 
 `FTP_SERVER_DIR` is the folder that `ads.gbhgroup.ae` serves, written **relative to the folder the FTP account logs in to**. The workflow has no default for it, because a wrong value still uploads successfully, just to a folder nobody visits.
 
-What is known (October 2026):
+The failed run on 21 October 2026 logged in at `/public_html`, with an `ads/` subfolder, but used `FTP_SERVER_DIR=/ads/`. The leading slash sends the FTP library back to `/`, so that value uploads to `/ads/`, not `/public_html/ads/`. The previous claim here that the subdomain must be outside this FTP account was not established by that mismatch.
 
-- The FTP account in the `FTP_*` secrets logs in to the document root of the **main** site, `gbhgroup.ae` (a Laravel app). Uploading to `public_html/ads/` therefore created a nested `public_html/public_html/ads/`, publicly visible at `https://gbhgroup.ae/public_html/ads/`.
-- The live `ads.gbhgroup.ae` files are **not** inside that FTP account, not even in an `ads/` folder next to the main site. `ads.gbhgroup.ae` is most likely its own website in hPanel, with its own document root.
+hPanel confirms the document root for `ads.gbhgroup.ae` is `/home/u449961891/domains/gbhgroup.ae/public_html/ads`. With the current FTP login at `/public_html`, set **`FTP_SERVER_DIR=ads/`**. Do not use `/ads/` (absolute FTP path) or `public_html/ads/` (duplicates `public_html` under this login folder). The script now rejects absolute paths and parent traversal instead of guessing their meaning.
 
 To find the right values:
 
 1. In hPanel, open the **ads.gbhgroup.ae** website (or **Domains → Subdomains**) and note its folder in **File Manager**: the folder holding the live `index.html` and `assets/`.
 2. Open **Files → FTP Accounts** *for that website*. Use an FTP account whose login folder contains that folder, or create one whose directory *is* that folder.
-3. Set `FTP_SERVER_DIR` to the site folder relative to the account's login folder: `./` when the account logs in directly to the site folder. Every deploy logs the login folder and its contents (`FTP login folder … contains: …`) to help check this.
+3. Set `FTP_SERVER_DIR` to the existing site folder relative to the account's login folder: `ads/` for login `/public_html` and document root `/public_html/ads`; `./` when the account logs in directly to the site folder. Every deploy logs the login folder, its contents and the resolved destination to help check this. Create the document root through hPanel first if it does not exist.
 4. Never point it at the main site's folder: the build's `.htaccess` and `index.html` would replace the main site's.
 
-The deploy checks that `SITE_URL` serves the build it just uploaded and fails with a clear error if not.
+Before changing website files or the sync state, the deploy uploads a temporary, randomly named text probe to the destination and checks that `SITE_URL` returns its exact contents. It removes the probe on success or failure. A wrong folder, inaccessible URL or redirect stops the deploy before the build upload. Set `SITE_URL` to the canonical URL that serves the site directly. The verified absolute FTP path is then used for the upload connection. After uploading, the workflow still checks the live build, static files and contact endpoint.
 
 ### 2. Add secrets and variables in GitHub
 
@@ -52,7 +51,7 @@ Repository → **Settings** → **Secrets and variables** → **Actions**.
 
 | Name | Value |
 |---|---|
-| `FTP_SERVER_DIR` | **Required.** The `ads.gbhgroup.ae` document root relative to the FTP login folder, ending in `/` (see step 1). `./` for an FTP account that logs in directly to the site folder |
+| `FTP_SERVER_DIR` | **Required: `ads/` for the current FTP account**, which logs in at `/public_html`. Use `./` only if switching to an account that logs in directly to the subdomain folder (see step 1) |
 | `MAIL_FROM` | `GBH Website <info@gbhgroup.ae>` |
 | `CONTACT_TO` | `gulfbusinesshubuae@gmail.com` (comma-separate several) |
 | `SMTP_HOST` | `premium312.web-hosting.com` |
@@ -85,5 +84,7 @@ To require approval before each deploy, open **Settings** → **Environments** �
 - **FTP login or connection error**: check `FTP_SERVER`, `FTP_USERNAME` and `FTP_PASSWORD`. If it mentions TLS, set `FTP_PROTOCOL` to `ftp`.
 - **`ECONNRESET (data socket)`**: a file transfer was dropped. Re-run with the Actions variable `FTP_LOG_LEVEL` set to `verbose` to log the full FTP conversation (passwords are masked), and check that `npm ls basic-ftp --prefix scripts/ftp-deploy` shows 6.2.3 or later.
 - **Missing Actions variable FTP_SERVER_DIR**: set it as described in step 1.
-- **"serves …, but this deploy uploaded …"**: the upload succeeded into a folder `SITE_URL` does not serve. Fix `FTP_SERVER_DIR` or the FTP account (step 1), then delete the stray files over FTP.
+- **FTP_SERVER_DIR must be relative**: for the current login `/public_html` and confirmed document root `public_html/ads`, change `/ads/` to `ads/`. Check repository and `production` environment variables for overrides.
+- **FTP destination could not be verified**: no website files were uploaded. Check the document root, FTP account and canonical `SITE_URL`; also check whether a CDN or access rule blocks the probe. Do not bypass this check to force a deploy.
+- **"serves …, but this deploy uploaded …"**: with the new destination probe, check stale HTML/CDN caching, index-file precedence and other deployments overwriting the site. Older runs without the probe can also mean a wrong FTP folder. Do not delete stray files until you have confirmed their location and ownership.
 - **Contact endpoint check fails**: the error names the HTTP status. 404: `api/contact.php` or the `.htaccess` rewrite is missing from the served folder. 405: a redirect turned the POST into a GET. 5xx: see the PHP error log in hPanel.

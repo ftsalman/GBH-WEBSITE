@@ -33,3 +33,20 @@
   .contact-popup-backdrop,
   .contact-popup-panel { animation: none; }
 }
+
+/* Offer badge: pop in from the right, then float */
+@keyframes offer-badge-pop {
+  0% { opacity: 0; transform: translateX(40px) scale(0.6); }
+  60% { opacity: 1; transform: translateX(-6px) scale(1.06); }
+  100% { opacity: 1; transform: none; }
+}
+@keyframes offer-badge-float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-8px); }
+}
+.offer-badge { animation: offer-badge-pop 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) both; }
+.offer-badge-float { animation: offer-badge-float 3s ease-in-out 0.6s infinite; }
+@media (prefers-reduced-motion: reduce) {
+  .offer-badge,
+  .offer-badge-float { animation: none; }
+}

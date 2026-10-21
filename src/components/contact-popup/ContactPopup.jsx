@@ -8,9 +8,11 @@ import {
 
 // The popup shows on every page load (including refreshes), SHOW_AFTER_MS after the
 // page opens, and hides itself VISIBLE_FOR_MS later unless the visitor starts using it.
-const SHOW_AFTER_MS = 5000;
+const SHOW_AFTER_MS = 10000;
 const VISIBLE_FOR_MS = 10000;
 const FORM_ID = "contact-popup-form";
+// Dispatch this window event to open the popup from elsewhere (e.g. the offer badge).
+export const OPEN_CONTACT_POPUP = "contact-popup:open";
 
 const emptyForm = {
   name: "",
@@ -39,6 +41,15 @@ export const ContactPopup = () => {
   }, []);
 
   const close = useCallback(() => setOpen(false), []);
+
+  useEffect(() => {
+    const openOnRequest = () => {
+      setEngaged(true);
+      setOpen(true);
+    };
+    window.addEventListener(OPEN_CONTACT_POPUP, openOnRequest);
+    return () => window.removeEventListener(OPEN_CONTACT_POPUP, openOnRequest);
+  }, []);
 
   useEffect(() => {
     if (!open || engaged) return;
@@ -252,7 +263,7 @@ export const ContactPopup = () => {
               type="submit"
               form={FORM_ID}
               disabled={sending}
-              className="mt-8 rounded-[28px] bg-black px-6 py-3 text-sm font-medium text-white shadow-md transition hover:-translate-y-0.5 hover:bg-[#242424] disabled:opacity-60 md:mt-auto"
+              className="mt-8 rounded-[28px] bg-white! px-6 py-3 text-sm font-medium text-black! shadow-md transition hover:-translate-y-0.5 hover:bg-[#e5e5e5]! disabled:opacity-60 md:mt-auto"
             >
               {sending ? "Sending…" : status === "error" ? "Try again" : "Submit"}
             </button>

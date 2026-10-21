@@ -6,11 +6,12 @@ import { Readable, Writable } from "node:stream";
 import { Client } from "basic-ftp";
 import { deploy, excludeDefaults } from "@samkirkland/ftp-deploy";
 import { currentSyncFileVersion, syncFileDescription } from "@samkirkland/ftp-deploy/dist/types.js";
+import { validateDestination, verifyDestination } from "./destination.mjs";
 
 const env = process.env;
 const STATE_NAME = ".ftp-deploy-sync-state.json";
 
-const missing = ["FTP_SERVER", "FTP_USERNAME", "FTP_PASSWORD", "FTP_SERVER_DIR"].filter((name) => !env[name]?.trim());
+const missing = ["FTP_SERVER", "FTP_USERNAME", "FTP_PASSWORD", "FTP_SERVER_DIR", "SITE_URL"].filter((name) => !env[name]?.trim());
 if (missing.length) {
   console.error(`Missing FTP settings: ${missing.join(", ")}.`);
   process.exit(1);
@@ -33,6 +34,14 @@ const settings = {
   "state-name": STATE_NAME,
 };
 
+let destination;
+try {
+  destination = validateDestination(settings["server-dir"], env.SITE_URL);
+} catch (error) {
+  console.error(error.message);
+  process.exit(1);
+}
+
 // ftp-deploy treats a missing state file as a first deploy, but Hostinger's ProFTPD resets the
 // data connection of that failed download, which leaves ftp-deploy's client closed and every
 // later command fails with "Client is closed because read ECONNRESET (data socket)".
@@ -53,7 +62,8 @@ async function seedStateFile() {
     const entries = (await client.list()).map((entry) => entry.name + (entry.isDirectory ? "/" : ""));
     console.log(`FTP login folder ${await client.pwd()} contains: ${entries.join(", ") || "(empty)"}`);
     console.log(`Uploading to: ${settings["server-dir"]}`);
-    await client.ensureDir(settings["server-dir"]);
+    // Pin both connections to the same verified absolute path, regardless of the login directory.
+    settings["server-dir"] = await verifyDestination(client, destination);
     try {
       await client.size(STATE_NAME);
       await forgetBrokenFiles(client);

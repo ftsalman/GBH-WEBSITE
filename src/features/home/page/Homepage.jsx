@@ -47,7 +47,7 @@ export const Homepage = () => {
         <Pricing />
         <BookingProcess />
         <Locations />
-        <Testimonials />
+        {/* <Testimonials /> */}
         <Contact />
       </main>
       <Footer />

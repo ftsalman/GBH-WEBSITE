@@ -16,7 +16,7 @@ export const Hero = ({ setConsultation }) => (
     </div>
     <div className="lp-container lp-hero">
       <div className="lp-hero-copy">
-        <span className="lp-eyebrow">Al Muteena · Deira · Dubai</span>
+        <span className="lp-eyebrow">Al Muteena · Electricity  · Dubai</span>
         <h1 id="hero-title">Find Your Ideal Office Space in Al Muteena</h1>
         <p className="lp-hero-text">
           Discover professional office spaces in Al Muteena, Dubai, designed for

@@ -5,7 +5,7 @@ export const CONTACT = {
   tel: "tel:+971543053038",
   whatsapp: "https://wa.me/971543053038",
   email: "Info@gbhgroup.ae",
-  address: "Al Rasheed Rd - Al Muteena - Deira - Dubai - United Arab Emirates",
+  address: "Al Rasheed Rd - Al Muteena - Electricity  - Dubai - United Arab Emirates",
 };
 
 export const services = [

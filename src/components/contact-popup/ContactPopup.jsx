@@ -5,7 +5,15 @@ import {
   fieldClass,
   timeframes,
 } from "../../features/home/components/Contact/contactFormConfig";
+import {
+  trackLeadConversion,
+  captureAdParams,
+  getAdParams,
+} from "../../lib/trackLead";
 
+// Same switch as in ContactForm.jsx: set to true ONLY after the backend accepts
+// gclid, utm_source, utm_medium, utm_campaign and utm_term.
+const SEND_AD_PARAMS = false;
 // The popup shows on every page load (including refreshes), SHOW_AFTER_MS after the
 // page opens, and hides itself VISIBLE_FOR_MS later unless the visitor starts using it.
 const SHOW_AFTER_MS = 10000;
@@ -34,6 +42,11 @@ export const ContactPopup = () => {
   // Set once the visitor clicks, types or tabs inside the popup, so it never vanishes mid-entry.
   const [engaged, setEngaged] = useState(false);
   const firstFieldRef = useRef(null);
+
+  // Save gclid / UTM from the ad click URL
+  useEffect(() => {
+    captureAdParams();
+  }, []);
 
   useEffect(() => {
     const timer = setTimeout(() => setOpen(true), SHOW_AFTER_MS);
@@ -83,7 +96,11 @@ export const ContactPopup = () => {
     setStatus("sending");
     setError("");
     try {
-      await submitContact(form);
+      await submitContact(SEND_AD_PARAMS ? { ...form, ...getAdParams() } : form);
+      // Google Ads conversion: only after a successful save, and never for bots
+      if (!form.website) {
+        trackLeadConversion({ email: form.email, phone: form.phone });
+      }
       setForm(emptyForm);
       setStatus("sent");
     } catch (err) {

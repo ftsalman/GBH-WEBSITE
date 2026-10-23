@@ -3,7 +3,17 @@ import { createPortal } from "react-dom";
 import { CheckCircle2, CircleAlert, X } from "lucide-react";
 import { timeframes } from "./contactFormConfig";
 import { submitContact } from "../../../../lib/contactApi";
+import {
+  trackLeadConversion,
+  captureAdParams,
+  getAdParams,
+} from "../../../../lib/trackLead";
 import { CONTACT } from "../../constants/homeData";
+
+// Set to true ONLY after the backend (submitContact API) accepts the extra
+// fields gclid, utm_source, utm_medium, utm_campaign, utm_term.
+// If the backend rejects unknown fields, keeping this false avoids form errors.
+const SEND_AD_PARAMS = false;
 
 const emptyForm = {
   name: "",
@@ -11,16 +21,20 @@ const emptyForm = {
   phone: "",
   timeframe: "",
   message: "",
-  website: "",
+  website: "", // honeypot: real users never fill this
 };
 
 export const ContactForm = () => {
   const submitting = useRef(false);
   const [form, setForm] = useState(emptyForm);
   const [status, setStatus] = useState("idle"); // idle | sending | sent | error
-  const [lastSent, setLastSent] = useState(null);
   // toast content is kept after closing so it can fade out
   const [toast, setToast] = useState({ open: false, type: "success", title: "", message: "" });
+
+  // Save gclid / UTM from the ad click URL
+  useEffect(() => {
+    captureAdParams();
+  }, []);
 
   useEffect(() => {
     if (toast.open) {
@@ -47,24 +61,30 @@ export const ContactForm = () => {
     closeToast();
     try {
       await submitContact(payload);
-      setLastSent(payload);
+
+      // Google Ads conversion: only after a successful save, and never for bots
+      if (!payload.website) {
+        trackLeadConversion({ email: payload.email, phone: payload.phone });
+      }
+
       setForm(emptyForm);
       setStatus("sent");
       setToast({
         open: true,
         type: "success",
-        title: "Enquiry Sent Successfully!",
+        title: "Enquiry sent",
         message:
-          "Thank you for reaching out. We have received your message and will be in touch shortly.",
+          "Thank you. Our Al Muteena team will contact you shortly with today’s price and viewing times.",
       });
     } catch (err) {
       setStatus("error");
       setToast({
         open: true,
         type: "error",
-        title: "Enquiry Not Sent",
+        title: "Enquiry not sent",
         message:
-          err.message || "Could not send your enquiry. Please try again.",
+          err.message ||
+          "Your enquiry could not be sent. Check your connection and try again, or WhatsApp us.",
       });
     } finally {
       submitting.current = false;
@@ -73,10 +93,8 @@ export const ContactForm = () => {
 
   const submit = (event) => {
     event.preventDefault();
-    send(form);
+    send(SEND_AD_PARAMS ? { ...form, ...getAdParams() } : form);
   };
-
-  const resend = () => send(lastSent);
 
   const sending = status === "sending";
 
@@ -84,7 +102,7 @@ export const ContactForm = () => {
     <form onSubmit={submit} className="lp-form">
       <div className="lp-form-title lp-form-wide">
         <span className="lp-eyebrow">Send an enquiry</span>
-        <h3>Tell us what you have in mind.</h3>
+        <h3>Get today’s price and book a free viewing.</h3>
       </div>
       <label className="lp-field">
         Full name
@@ -117,6 +135,7 @@ export const ContactForm = () => {
           type="tel"
           name="phone"
           autoComplete="tel"
+          inputMode="tel"
           placeholder="+971 50 123 4567"
           value={form.phone}
           onChange={change}
@@ -163,10 +182,7 @@ export const ContactForm = () => {
       />
       {status === "sent" && (
         <p role="status" className="lp-form-status is-sent lp-form-wide">
-          Thank you! Your enquiry has been sent. We'll be in touch soon.
-          <button type="button" onClick={resend}>
-            Didn't go through? Resend
-          </button>
+          Thank you. Your enquiry has been sent and our team will contact you soon.
         </p>
       )}
       <button
@@ -174,7 +190,7 @@ export const ContactForm = () => {
         disabled={sending}
         className="lp-btn lp-btn-accent lp-form-submit lp-form-wide"
       >
-        {sending ? "Sending…" : status === "error" ? "Try again" : "Submit"}
+        {sending ? "Sending…" : status === "error" ? "Try again" : "Get Price & Book Viewing"}
       </button>
       <p className="lp-form-note lp-form-wide">
         Prefer to talk? WhatsApp or call{" "}

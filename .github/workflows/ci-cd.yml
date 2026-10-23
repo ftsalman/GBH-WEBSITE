@@ -104,7 +104,8 @@ jobs:
             exit 1
           fi
           if [[ "$FTP_SERVER_DIR" == /* ]]; then
-            echo "::error::FTP_SERVER_DIR must be relative to the login folder. For login /public_html and site /public_html/ads use ads/, not /ads/. See docs/deployment.md."
+            # A variable, not a secret, so showing it is safe; an environment variable overrides the repository one.
+            echo "::error::FTP_SERVER_DIR is '$FTP_SERVER_DIR' but must be relative to the login folder. For login /public_html and site /public_html/ads use ads/, not /ads/. Check the production environment's variables as well as the repository's. See docs/deployment.md."
             exit 1
           fi
 

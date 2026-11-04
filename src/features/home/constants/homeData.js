@@ -40,18 +40,6 @@ export const services = [
     location: "Dubai, UAE",
   },
   {
-    name: "Visa services",
-    icon: "globe",
-    image:
-      "https://i.pinimg.com/736x/82/1f/4f/821f4ff658c84dd15010af5e42fe2179.jpg",
-    title: "The world is waiting.",
-    line: "Let’s get you there.",
-    detail: "Visa support for your professional travel and stay.",
-    options: ["Visa services", "Global visa services"],
-    label: "How can we help?",
-    location: "United Arab Emirates",
-  },
-  {
     name: "Financial consulting",
     icon: "chart",
     image: "/images/meeting.jpg",
@@ -131,12 +119,6 @@ export const serviceCards = [
     image: "/images/workspace.jpg",
   },
   {
-    title: "Visa Services",
-    icon: "globe",
-    description: "Visa support for professional travel and stay.",
-    image: "/images/dubai.png",
-  },
-  {
     title: "Financial Consulting",
     icon: "chart",
     description: "Accounts management and financial support.",
@@ -177,7 +159,7 @@ export const facilityCards = [
     detail: "Stay connected throughout your working day.",
   },
   {
-    title: "DEWA",
+    title: "Electricity",
     icon: "bolt",
     detail:
       "Essential electricity and water services included for your workspace.",
@@ -227,7 +209,7 @@ export const locations = [
     address: "Saeed Suhail Building, Ras Al Khor, Dubai",
     phone: "+971 54 305 3038",
     email: "info@gbhgroup.ae",
-    description: "Furnished office space with Ejari and meeting rooms.",
+    description: "Furnished office space with Contract and meeting rooms.",
     image: "/images/locations/ras-al-khor.jpg",
   },
 ];
@@ -242,7 +224,7 @@ export const bookingSteps = [
     step: "02",
     title: "Select Service",
     description:
-      "Choose business setup, office space, visas or another GBH service.",
+      "Choose business setup, office space or another GBH service.",
   },
   {
     step: "03",

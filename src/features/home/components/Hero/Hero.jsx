@@ -6,7 +6,7 @@ const highlights = [
   "Furnished office spaces",
   "Meeting rooms",
   "High-speed Wi-Fi",
-  "DEWA included",
+  "Electricity included",
 ];
 
 export const Hero = ({ setConsultation }) => (
